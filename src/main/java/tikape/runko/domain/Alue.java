@@ -9,10 +9,12 @@ package tikape.runko.domain;
  *
  * @author jack
  */
-public class Alue {
+public class Alue implements Retrievable{
     
     private int id;
     private String otsikko;
+    
+    public Alue(){};
 
     public Alue(int id, String otsikko) {
         this.id = id;

@@ -5,11 +5,13 @@
  */
 package tikape.runko.domain;
 
+import java.util.List;
+
 /**
  *
  * @author jack
  */
-public class Lanka {
+public class Lanka implements Retrievable {
     
     private int id;
     private int alueid;
@@ -40,11 +42,11 @@ public class Lanka {
         this.alueid = alueid;
     }
 
-    public <any> getViestit() {
+    public List<Viesti> getViestit() {
         return viestit;
     }
 
-    public void setViestit(<any> viestit) {
+    public void setViestit(List<Viesti> viestit) {
         this.viestit = viestit;
     }
 

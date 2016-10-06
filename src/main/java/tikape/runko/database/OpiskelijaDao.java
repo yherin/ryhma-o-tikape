@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import tikape.runko.domain.Opiskelija;
 
+//EI SAA KÄYTTÄÄ
+
 public class OpiskelijaDao implements Dao<Opiskelija, Integer> {
 
     private Database database;

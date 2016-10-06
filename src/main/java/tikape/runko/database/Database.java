@@ -16,7 +16,7 @@ public class Database {
         return DriverManager.getConnection(databaseAddress);
     }
 
-    public void init() {
+   /* public void init() {
         List<String> lauseet = sqliteLauseet();
 
         // "try with resources" sulkee resurssin automaattisesti lopuksi
@@ -35,6 +35,7 @@ public class Database {
         }
     }
 
+
     private List<String> sqliteLauseet() {
         ArrayList<String> lista = new ArrayList<>();
 
@@ -46,4 +47,6 @@ public class Database {
 
         return lista;
     }
+*/
+
 }

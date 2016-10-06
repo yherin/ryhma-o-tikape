@@ -4,12 +4,12 @@
  * and open the template in the editor.
  */
 package tikape.runko.domain;
-
+import java.sql.Timestamp;
 /**
  *
  * @author jack
  */
-public class Viesti {
+public class Viesti implements Retrievable{
     
     private int id; //PRIMARY KEY
     private int lankaid; //FOREIGN KEY VIITEAVAIN
