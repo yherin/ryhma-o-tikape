@@ -76,7 +76,7 @@ public class AlueApulainen extends Apulainen {
     public List<Alue> getAlueetViestitAikaLeimat() throws SQLException{
         Connection connection = this.database.getConnection();
         
-        String sql = "SELECT Alue.otsikko AS 'alue', COUNT(Viesti.id) AS 'viestit', MAX(Viesti.aikaleima) AS 'viimeisinviesti' FROM Alue, Lanka \n" +
+        String sql = "SELECT Alue.id AS 'id', Alue.otsikko AS 'alue', COUNT(Viesti.id) AS 'viestit', MAX(Viesti.aikaleima) AS 'viimeisinviesti' FROM Alue, Lanka \n" +
     "LEFT JOIN Viesti ON Alue.id = Lanka.alueid AND Lanka.id = Viesti.lankaid\n" +
     "GROUP BY Alue.otsikko\n" +
     "ORDER BY Alue.otsikko ASC;";
@@ -90,7 +90,7 @@ public class AlueApulainen extends Apulainen {
         Integer id = tulos.getInt("id");
         Integer viestit = tulos.getInt("viestit");
         String otsikko = tulos.getString("alue");
-        Timestamp aikaleima = tulos.getTimestamp("viimeisinviesti");
+        String aikaleima = tulos.getString("viimeisinviesti");
         
         Alue alue = new Alue(id, otsikko);
         alue.setViesteja_alueessa(viestit);

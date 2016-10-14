@@ -1,0 +1,20 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+-->
+
+<head>
+    <title> th:text="${alue.otsikko}" </title>
+        
+    </head>
+    <body>
+        
+        <ol>
+            <li th:each=" lanka: ${langat}">
+                <a th:href="${'/' + alue.id}" > <span th:text="${lanka.otsikko}" ></span> </a>
+                <span th:text="${lanka.viesteja}" ></span>
+                <span th:text="${lanka.viimeisinViesti}" ></span>
+            </li>
+        </ol>
+        
+    </body>
+</html>

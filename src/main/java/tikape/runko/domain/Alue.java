@@ -17,7 +17,7 @@ public class Alue implements Retrievable{
     private String otsikko;
 
    
-    private Timestamp viimeisinViesti;
+    private String viimeisinViesti;
     private Integer viesteja_alueessa;
     
     public Alue(){};
@@ -43,11 +43,11 @@ public class Alue implements Retrievable{
         this.otsikko = otsikko;
     }
     
-     public Timestamp getViimeisinViesti() {
+     public String getViimeisinViesti() {
         return viimeisinViesti;
     }
 
-    public void setViimeisinViesti(Timestamp viimeisinViesti) {
+    public void setViimeisinViesti(String viimeisinViesti) {
         this.viimeisinViesti = viimeisinViesti;
     }
 
@@ -57,6 +57,11 @@ public class Alue implements Retrievable{
 
     public void setViesteja_alueessa(Integer viesteja_alueessa) {
         this.viesteja_alueessa = viesteja_alueessa;
+    }
+
+    @Override
+    public String toString() {
+        return "Alue{" + "id=" + id + ", otsikko=" + otsikko + ", viimeisinViesti=" + viimeisinViesti + ", viesteja_alueessa=" + viesteja_alueessa + '}';
     }
     
     

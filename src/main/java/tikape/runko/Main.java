@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.HashMap;
+import java.util.List;
 import spark.ModelAndView;
 import static spark.Spark.*;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
@@ -30,12 +31,34 @@ public class Main {
 
         // OpiskelijaDao opiskelijaDao = new OpiskelijaDao(database);   //VANHA
         AlueApulainen alueapulainen = new AlueApulainen(database);  //MEIDÄN TOTEUTUS mutta ei toimi vielä
-
+        
+        
         get("/", (req, res) -> {
+
+            res.redirect("/alueet");
+            return "";
+        });
+        
+        get("/alueet", (req, res) -> {
+        HashMap map = new HashMap<>();
+        
+        List<Alue> alueet = alueapulainen.getAlueetViestitAikaLeimat();
+        
+        map.put("alueet", alueet);
+        
+            System.out.println(alueet);
+        
+        return new ModelAndView(map, "alueet");
+        }, new ThymeleafTemplateEngine());
+        
+        get("/alueet/:id", (req, res) -> {
             HashMap map = new HashMap<>();
-            map.put("viesti", "tervehdys");
-            map.put("alueet", alueapulainen.getAll());
-            return new ModelAndView(map, "index");
+            Integer id = Integer.parseInt(req.params(":id"));
+
+           Alue alue = (Alue) alueapulainen.getSingle(id);
+            map.put("alue", alue);
+            
+        return new ModelAndView(map, "alue");
         }, new ThymeleafTemplateEngine());
 
         /* EI KÄYTETÄ
