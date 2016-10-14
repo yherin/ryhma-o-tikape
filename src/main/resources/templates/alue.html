@@ -3,15 +3,15 @@
 -->
 
 <head>
-    <title> th:text="${alue.otsikko}" </title>
+    <title> otsikko </title>
         
     </head>
     <body>
         
         <ol>
             <li th:each=" lanka: ${langat}">
-                <a th:href="${'/' + alue.id}" > <span th:text="${lanka.otsikko}" ></span> </a>
-                <span th:text="${lanka.viesteja}" ></span>
+                <a th:href="@{~/}" > <span th:text="${lanka.otsikko}" ></span> </a>
+                <span th:text="${lanka.viesteja_langassa}" ></span>
                 <span th:text="${lanka.viimeisinViesti}" ></span>
             </li>
         </ol>

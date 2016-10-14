@@ -11,8 +11,10 @@ import static spark.Spark.*;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 import tikape.runko.database.AlueApulainen;
 import tikape.runko.database.Database;
+import tikape.runko.database.LankaApulainen;
 import tikape.runko.database.OpiskelijaDao;
 import tikape.runko.domain.Alue;
+import tikape.runko.domain.Lanka;
 
 public class Main {
 
@@ -31,7 +33,7 @@ public class Main {
 
         // OpiskelijaDao opiskelijaDao = new OpiskelijaDao(database);   //VANHA
         AlueApulainen alueapulainen = new AlueApulainen(database);  //MEIDÄN TOTEUTUS mutta ei toimi vielä
-        
+        LankaApulainen lankaapulainen = new LankaApulainen(database);
         
         get("/", (req, res) -> {
 
@@ -53,10 +55,12 @@ public class Main {
         
         get("/alueet/:id", (req, res) -> {
             HashMap map = new HashMap<>();
-            Integer id = Integer.parseInt(req.params(":id"));
+            String id = req.params(":id");
 
-           Alue alue = (Alue) alueapulainen.getSingle(id);
-            map.put("alue", alue);
+       //    Alue alue = (Alue) alueapulainen.getSingle(id);
+           List<Lanka> langat = lankaapulainen.getLankaViesti(id);
+            System.out.println(langat);
+            map.put("langat", langat);
             
         return new ModelAndView(map, "alue");
         }, new ThymeleafTemplateEngine());

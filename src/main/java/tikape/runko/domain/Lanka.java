@@ -17,11 +17,25 @@ public class Lanka implements Retrievable {
     private int alueid;
     private List<Viesti> viestit;
     private String otsikko;
+    
+    private String viimeisinViesti;
+    private Integer viesteja_langassa;
 
+    public Lanka(){
+        
+    }
+    
     public Lanka(int id, int alueid, List<Viesti> viestit, String otsikko) {
         this.id = id;
         this.alueid = alueid;
         this.viestit = viestit;
+        this.otsikko = otsikko;
+    }
+    
+     public Lanka(int id, int alueid,  String otsikko) {
+        this.id = id;
+        this.alueid = alueid;
+        
         this.otsikko = otsikko;
     }
 
@@ -56,6 +70,27 @@ public class Lanka implements Retrievable {
 
     public void setOtsikko(String otsikko) {
         this.otsikko = otsikko;
+    }
+
+    public String getViimeisinViesti() {
+        return viimeisinViesti;
+    }
+
+    public void setViimeisinViesti(String viimeisinViesti) {
+        this.viimeisinViesti = viimeisinViesti;
+    }
+
+    public Integer getViesteja_langassa() {
+        return viesteja_langassa;
+    }
+
+    public void setViesteja_langassa(Integer viesteja_langassa) {
+        this.viesteja_langassa = viesteja_langassa;
+    }
+
+    @Override
+    public String toString() {
+        return "Lanka{" + "id=" + id + ", alueid=" + alueid + ", viestit=" + viestit + ", otsikko=" + otsikko + ", viimeisinViesti=" + viimeisinViesti + ", viesteja_langassa=" + viesteja_langassa + '}';
     }
     
     
