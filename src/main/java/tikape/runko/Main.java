@@ -56,11 +56,12 @@ public class Main {
         get("/alueet/:id", (req, res) -> {
             HashMap map = new HashMap<>();
             String id = req.params(":id");
-
-       //    Alue alue = (Alue) alueapulainen.getSingle(id);
-           List<Lanka> langat = lankaapulainen.getLankaViesti(id);
+            Alue alue = (Alue) alueapulainen.getSingle(Integer.parseInt(id));
+            List<Lanka> langat = lankaapulainen.getLankaViesti(id);
             System.out.println(langat);
+            
             map.put("langat", langat);
+            map.put("alue", alue);
             
         return new ModelAndView(map, "alue");
         }, new ThymeleafTemplateEngine());

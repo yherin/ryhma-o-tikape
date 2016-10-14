@@ -3,11 +3,12 @@
 -->
 
 <head>
-    <title> otsikko </title>
+    <title> Keskustelufoorumi </title>
         
     </head>
     <body>
         
+        <h1 th:text="${alue.otsikko}"></h1>
         <ol>
             <li th:each=" lanka: ${langat}">
                 <a th:href="@{~/}" > <span th:text="${lanka.otsikko}" ></span> </a>
