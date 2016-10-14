@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
@@ -70,5 +71,36 @@ public class AlueApulainen extends Apulainen {
         //EI VIELÄ VALMIS
         return alueet;
     }
-
+    
+    
+    public List<Alue> getAlueetViestitAikaLeimat() throws SQLException{
+        Connection connection = this.database.getConnection();
+        
+        String sql = "SELECT Alue.otsikko AS 'alue', COUNT(Viesti.id) AS 'viestit', MAX(Viesti.aikaleima) AS 'viimeisinviesti' FROM Alue, Lanka \n" +
+    "LEFT JOIN Viesti ON Alue.id = Lanka.alueid AND Lanka.id = Viesti.lankaid\n" +
+    "GROUP BY Alue.otsikko\n" +
+    "ORDER BY Alue.otsikko ASC;";
+        
+    PreparedStatement statement = connection.prepareStatement(sql);
+    ResultSet tulos = statement.executeQuery();
+    
+    List<Alue> alueet = new ArrayList<>();
+    
+    while (tulos.next()){
+        Integer id = tulos.getInt("id");
+        Integer viestit = tulos.getInt("viestit");
+        String otsikko = tulos.getString("alue");
+        Timestamp aikaleima = tulos.getTimestamp("viimeisinviesti");
+        
+        Alue alue = new Alue(id, otsikko);
+        alue.setViesteja_alueessa(viestit);
+        alue.setViimeisinViesti(aikaleima);
+        
+        alueet.add(alue);
+        
+    }
+    
+    return alueet;
+    }
+    
 }

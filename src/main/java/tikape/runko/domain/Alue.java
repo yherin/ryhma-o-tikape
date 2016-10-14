@@ -5,6 +5,8 @@
  */
 package tikape.runko.domain;
 
+import java.sql.Timestamp;
+
 /**
  *
  * @author jack
@@ -13,6 +15,10 @@ public class Alue implements Retrievable{
     
     private int id;
     private String otsikko;
+
+   
+    private Timestamp viimeisinViesti;
+    private Integer viesteja_alueessa;
     
     public Alue(){};
 
@@ -35,6 +41,22 @@ public class Alue implements Retrievable{
 
     public void setOtsikko(String otsikko) {
         this.otsikko = otsikko;
+    }
+    
+     public Timestamp getViimeisinViesti() {
+        return viimeisinViesti;
+    }
+
+    public void setViimeisinViesti(Timestamp viimeisinViesti) {
+        this.viimeisinViesti = viimeisinViesti;
+    }
+
+    public Integer getViesteja_alueessa() {
+        return viesteja_alueessa;
+    }
+
+    public void setViesteja_alueessa(Integer viesteja_alueessa) {
+        this.viesteja_alueessa = viesteja_alueessa;
     }
     
     
