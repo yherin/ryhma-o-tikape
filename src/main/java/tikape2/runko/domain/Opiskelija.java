@@ -1,4 +1,4 @@
-package tikape.runko.domain;
+package tikape2.runko.domain;
 
 public class Opiskelija {
 

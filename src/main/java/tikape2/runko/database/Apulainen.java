@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tikape.runko.database;
+package tikape2.runko.database;
 import java.sql.SQLException;
 import java.util.List;
-import tikape.runko.domain.Retrievable;
+import tikape2.runko.domain.Retrievable;
 
         
 
@@ -14,14 +14,15 @@ import tikape.runko.domain.Retrievable;
  *
  * @author jack
  */
-public abstract class Apulainen {
+public abstract class Apulainen<T> {
     
-    public abstract Retrievable getSingle(int id) throws SQLException;
+    public abstract T getSingle(int id) throws SQLException;
     //hae tietokannasta yhden rivin id:n avulla
     
     
-    public abstract List<Retrievable> getAll() throws SQLException; 
+    public abstract List<T> getAll() throws SQLException; 
     //not yet implemented, hae kaikki taulun rivin
             
+    public abstract T create(T t) throws SQLException; 
     
 }

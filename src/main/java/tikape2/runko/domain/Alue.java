@@ -3,15 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tikape.runko.domain;
+package tikape2.runko.domain;
 
 import java.sql.Timestamp;
+import tikape2.runko.domain.Retrievable;
 
 /**
  *
  * @author jack
  */
-public class Alue implements Retrievable{
+public class Alue implements Retrievable<Alue>{
     
     private int id;
     private String otsikko;
@@ -24,6 +25,10 @@ public class Alue implements Retrievable{
 
     public Alue(int id, String otsikko) {
         this.id = id;
+        this.otsikko = otsikko;
+    }
+    
+    public Alue(String otsikko) {
         this.otsikko = otsikko;
     }
 

@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tikape.runko.domain;
+package tikape2.runko.domain;
 import java.sql.Timestamp;
+import tikape2.runko.domain.Retrievable;
 /**
  *
  * @author jack
  */
-public class Viesti implements Retrievable{
+public class Viesti implements Retrievable<Viesti>{
     
     private int id; //PRIMARY KEY
     private int lankaid; //FOREIGN KEY VIITEAVAIN
@@ -22,6 +23,20 @@ public class Viesti implements Retrievable{
         this.id = id;
         this.lankaid = lankaid;
         this.aikaleima = aikaleima;
+        this.viesti = viesti;
+        this.nimimerkki = nimimerkki;
+    }
+    
+    public Viesti(int lankaid, Timestamp aikaleima, String viesti, String nimimerkki) {
+        this.lankaid = lankaid;
+        this.aikaleima = aikaleima;
+        this.viesti = viesti;
+        this.nimimerkki = nimimerkki;
+    }
+    
+    public Viesti(int id, int lankaid, String viesti, String nimimerkki) {
+        this.id = id;
+        this.lankaid = lankaid;
         this.viesti = viesti;
         this.nimimerkki = nimimerkki;
     }

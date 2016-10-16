@@ -3,15 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tikape.runko.domain;
+package tikape2.runko.domain;
 
 import java.util.List;
+import tikape2.runko.domain.Retrievable;
 
 /**
  *
  * @author jack
  */
-public class Lanka implements Retrievable {
+public class Lanka implements Retrievable<Lanka> {
     
     private int id;
     private int alueid;

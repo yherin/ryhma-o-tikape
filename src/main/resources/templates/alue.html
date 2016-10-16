@@ -1,21 +1,34 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
--->
+    -->
 
-<head>
-    <title> Keskustelufoorumi </title>
-        
+    <head>
+        <title> Keskustelufoorumi </title>
+
     </head>
     <body>
-        
+
         <h1 th:text="${alue.otsikko}"></h1>
-        <ol>
-            <li th:each=" lanka: ${langat}">
-                <a th:href="@{~/}" > <span th:text="${lanka.otsikko}" ></span> </a>
-                <span th:text="${lanka.viesteja_langassa}" ></span>
-                <span th:text="${lanka.viimeisinViesti}" ></span>
-            </li>
-        </ol>
-        
+
+        <table>
+            <tr>
+                <th>Alue</th>
+                <th>Viestejä</th>
+                <th>Viimeisin viesti</th>
+            </tr>
+
+            <tr th:each=" lanka: ${langat}">
+                <td>
+                    <a th:href="${'/langat/' + lanka.id}" > <span th:text="${lanka.otsikko}" ></span> </a>
+                </td> 
+                <td>
+                    <span th:text="${lanka.viesteja_langassa}" ></span>
+                </td> 
+                <td>
+                    <span th:text="${lanka.viimeisinViesti}" ></span>
+                </td>
+            </tr>
+        </table>
+
     </body>
 </html>

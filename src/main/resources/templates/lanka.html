@@ -1,0 +1,27 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+-->
+
+<head>
+    <title> Keskustelufoorumi </title>
+        
+    </head>
+    <body>
+        
+        <h1 th:text="${lanka.otsikko}"></h1>
+        <ol>
+            <li th:each=" viesti: ${viestit}">
+                <span th:text="${viesti.viesti}" ></span>
+                <span th:text="${viesti.nimimerkki}" ></span>
+            </li>
+        </ol>
+        
+        <form method="POST" th:action="@{~/langat/{id}(id=${lanka.id})}">
+            Lisää viesti: <br/>
+            <input type="text" name="viesti"/><br/>
+            <input type="text" name="nimimerkki"/><br/>
+            <input type="submit" value="lisää!"/>
+        </form>
+        
+    </body>
+</html>

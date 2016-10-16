@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tikape.runko.domain;
+package tikape2.runko.domain;
 
 /**
  *
@@ -12,7 +12,7 @@ package tikape.runko.domain;
  * 
  * Voi hakea tietokannasta luokan, joka toteuttaa tämän esim. viesti, alue, lanka
  */
-public interface Retrievable {
+public interface Retrievable <T> {
     
     //ei mitään
 }

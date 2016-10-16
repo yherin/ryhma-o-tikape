@@ -12,7 +12,7 @@
 
         <table>
             <tr>
-                      <th>Alue</th>
+                <th>Alue</th>
                 <th>Viestejä yhteensä</th>
                 <th>Viimeisin viesti</th>
             </tr>
@@ -33,5 +33,12 @@
                 
             </tr>
         </table>
+        
+        <form method="POST" action="/alueet/:id">
+            Lisää alue: <br/>
+            <input type="text" name="alue"/><br/>
+            <input type="submit" value="lisää"/>
+        </form>
+        
     </body>
 </html>

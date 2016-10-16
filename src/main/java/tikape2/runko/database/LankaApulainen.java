@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tikape.runko.database;
+package tikape2.runko.database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,15 +11,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import tikape.runko.domain.Alue;
-import tikape.runko.domain.Lanka;
-import tikape.runko.domain.Retrievable;
+import tikape2.runko.domain.Alue;
+import tikape2.runko.domain.Lanka;
+import tikape2.runko.domain.Retrievable;
+import tikape2.runko.domain.Viesti;
 
 /**
  *
  * @author sjack
  */
-public class LankaApulainen extends Apulainen {
+public class LankaApulainen extends Apulainen<Lanka> {
 
     private Database database;
 
@@ -28,7 +29,7 @@ public class LankaApulainen extends Apulainen {
     }
 
     @Override
-    public Retrievable getSingle(int id) throws SQLException {
+    public Lanka getSingle(int id) throws SQLException {
         /*
         Hae yhden rivin Alue -taulusta
         EI TESTATTU
@@ -52,52 +53,30 @@ public class LankaApulainen extends Apulainen {
     }
 
     @Override
-    public List<Retrievable> getAll() throws SQLException {
+    public List<Lanka> getAll() throws SQLException {
         Connection connection = this.database.getConnection();
 
-        PreparedStatement statement = connection.prepareStatement("SELECT * FROM Alue");
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM Lanka");
         ResultSet tulos = statement.executeQuery();
 
-        List<Retrievable> alueet = new ArrayList<>();
+        List<Lanka> langat = new ArrayList<>();
         while (tulos.next()) {
-            Alue alue = new Alue();
-            alue.setId(tulos.getInt("id"));
-            alue.setOtsikko(tulos.getString("otsikko"));
-            alueet.add(alue);
+            Lanka lanka = new Lanka();
+            lanka.setId(tulos.getInt("id"));
+            lanka.setAlueid(tulos.getInt("alueid"));
+            lanka.setOtsikko(tulos.getString("otsikko"));
+            langat.add(lanka);
         }
-        return alueet;
+        return langat;
     }
 
     public List<Lanka> getLankaViesti(String key) throws SQLException { //toinen näkymä
         Connection connection = this.database.getConnection();
-        
-        /*
-        Jos alueessa on 2 tai enemmän lankaa, jossa on sama COUNT(Viesti.id) lukumaara tämä kysely ei toimii oikean.
-        Tämä tapahtuu kun alueid = 2 tai 3.
-        Kun alueid on 1 tai 4, kysely toimii hyvin.
-        */
-        
-        /*
-        If the number of messages in 2 or more threads is the same, the query will join them together and not work:
-        
-        If alueid = 2
-        
-        lankaid|lukumaara|viimeisinviesti
-        3|4|2016-10-04 20:02:00
-        
-        If alueid = 1
-        
-        lankaid|lukumaara|viimeisinviesti
-        1|2|2016-10-04 08:54:00
-        2|3|2016-10-04 20:00:00
-
-        
-        */
 
         String sql
                 = "SELECT Lanka.id as id, Lanka.otsikko as otsikko, COUNT(Viesti.id) as lukumaara, MAX(Viesti.aikaleima) AS 'viimeisinviesti' "
                 + "FROM Lanka, Alue "
-                + "JOIN Viesti ON Alue.id = Lanka.alueid AND Lanka.id = Viesti.lankaid "
+                + "LEFT JOIN Viesti ON Alue.id = Lanka.alueid AND Lanka.id = Viesti.lankaid "
                 + "WHERE Lanka.alueid = ? "
                 + "GROUP BY Lanka.id;";
         
@@ -121,5 +100,40 @@ public class LankaApulainen extends Apulainen {
         }
 
         return langat;
+    }
+    
+    public List<Viesti> getKaikkiViestit(String key) throws SQLException {
+        Connection connection = this.database.getConnection();
+
+        String sql
+                = "SELECT Viesti.id AS id, Viesti.teksti AS teksti, Viesti.nimimerkki AS nimimerkki "
+                + "FROM Viesti, Lanka "
+                + "WHERE Lanka.id = Viesti.lankaid AND Lanka.id = ?";
+        
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setObject(1, key);
+
+        ResultSet tulos = statement.executeQuery();
+        
+        List<Viesti> viestit = new ArrayList<>();
+        
+        while (tulos.next()) {
+            Integer id = tulos.getInt("id");
+          //  Integer alue_id = tulos.getInt("alue_id"); // EI TOIMII "GROUP BY":n kanssa
+            String teksti = tulos.getString("teksti");
+            String nimimerkki = tulos.getString("nimimerkki");
+
+            Viesti v = new Viesti(id, Integer.parseInt(key), teksti, nimimerkki);
+            //v.setAikaleima(tulos.getTimestamp(Viesti.aikaleima));
+
+            viestit.add(v);
+        }
+        
+        return viestit;
+    }
+
+    @Override
+    public Lanka create(Lanka t) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
