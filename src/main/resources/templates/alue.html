@@ -30,7 +30,7 @@
             </tr>
         </table>
         
-        <form method="POST" action="/alueet/:id">
+        <form method="POST" th:action="@{~/alueet/{id}(id=${alue.id})}">
             Lisää lanka: <br/>
             <input type="text" name="lanka"/><br/>
             <input type="submit" value="lisää"/>
