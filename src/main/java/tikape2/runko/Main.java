@@ -74,7 +74,7 @@ public class Main {
             Alue alue = new Alue(otsikko);
 
             alueapulainen.create(alue);
-            //res.redirect("/alueet");
+            res.redirect("/alueet");
             return "";
         });
 
