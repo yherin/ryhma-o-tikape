@@ -25,14 +25,7 @@ public class Main {
 
         Database database = new Database("jdbc:sqlite:foorumi.db");
 
-        Connection conn = DriverManager.getConnection("jdbc:sqlite:foorumi.db");
 
-        Statement statement = conn.createStatement();
-
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM Alue");
-
-        //  database.init(); db on jo olemmasa
-        // OpiskelijaDao opiskelijaDao = new OpiskelijaDao(database);   //VANHA
         AlueApulainen alueapulainen = new AlueApulainen(database);  //MEIDÄN TOTEUTUS mutta ei toimi vielä
         LankaApulainen lankaapulainen = new LankaApulainen(database);
         ViestiApulainen viestiapulainen = new ViestiApulainen(database);
