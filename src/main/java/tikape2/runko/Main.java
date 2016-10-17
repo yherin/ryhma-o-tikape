@@ -1,6 +1,7 @@
 package tikape2.runko;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -99,9 +100,10 @@ public class Main {
             HashMap map = new HashMap<>();
             int lankaid = Integer.parseInt(req.params(":id"));
             Timestamp time = new Timestamp(System.currentTimeMillis());
+            Date aika = new Date(time.getTime());
             String viesti = req.queryParams("viesti");
             String nimimerkki = req.queryParams("nimimerkki");
-            Viesti v = new Viesti(lankaid, time, viesti, nimimerkki);
+            Viesti v = new Viesti(lankaid, aika, viesti, nimimerkki);
 
             viestiapulainen.create(v);
             res.redirect("/langat/" + lankaid);

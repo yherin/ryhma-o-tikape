@@ -99,7 +99,7 @@ public class LankaApulainen extends Apulainen<Lanka> {
 
             Lanka l = new Lanka(id, Integer.parseInt(key), otsikko);
             l.setViesteja_langassa(tulos.getInt("lukumaara"));
-            l.setViimeisinViesti(tulos.getString("viimeisinviesti"));
+            l.setViimeisinViesti(tulos.getDate("viimeisinviesti"));
 
             langat.add(l);
         }

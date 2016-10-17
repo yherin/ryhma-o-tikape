@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package tikape2.runko.domain;
+import java.sql.Date;
 import java.sql.Timestamp;
 import tikape2.runko.domain.Retrievable;
 /**
@@ -14,12 +15,12 @@ public class Viesti implements Retrievable<Viesti>{
     
     private int id; //PRIMARY KEY
     private int lankaid; //FOREIGN KEY VIITEAVAIN
-    private Timestamp aikaleima;
+    private Date aikaleima;
     private String viesti;
     private String nimimerkki;
     
 
-    public Viesti(int id, int lankaid, Timestamp aikaleima, String viesti, String nimimerkki) {
+    public Viesti(int id, int lankaid, Date aikaleima, String viesti, String nimimerkki) {
         this.id = id;
         this.lankaid = lankaid;
         this.aikaleima = aikaleima;
@@ -27,7 +28,7 @@ public class Viesti implements Retrievable<Viesti>{
         this.nimimerkki = nimimerkki;
     }
     
-    public Viesti(int lankaid, Timestamp aikaleima, String viesti, String nimimerkki) {
+    public Viesti(int lankaid, Date aikaleima, String viesti, String nimimerkki) {
         this.lankaid = lankaid;
         this.aikaleima = aikaleima;
         this.viesti = viesti;
@@ -49,7 +50,7 @@ public class Viesti implements Retrievable<Viesti>{
         return lankaid;
     }
 
-    public Timestamp getAikaleima() {
+    public Date getAikaleima() {
         return aikaleima;
     }
 
@@ -69,7 +70,7 @@ public class Viesti implements Retrievable<Viesti>{
         this.lankaid = lankaid;
     }
 
-    public void setAikaleima(Timestamp aikaleima) {
+    public void setAikaleima(Date aikaleima) {
         this.aikaleima = aikaleima;
     }
 

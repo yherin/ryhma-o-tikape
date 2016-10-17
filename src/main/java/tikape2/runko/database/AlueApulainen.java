@@ -6,6 +6,7 @@
 package tikape2.runko.database;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -94,7 +95,7 @@ public class AlueApulainen extends Apulainen<Alue> {
             Integer id = tulos.getInt("id");
             Integer viestit = tulos.getInt("viestit");
             String otsikko = tulos.getString("alue");
-            String aikaleima = tulos.getString("viimeisinviesti");
+            Date aikaleima = tulos.getDate("viimeisinviesti");
 
             Alue alue = new Alue(id, otsikko);
             alue.setViesteja_alueessa(viestit);

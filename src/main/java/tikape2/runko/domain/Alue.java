@@ -5,6 +5,7 @@
  */
 package tikape2.runko.domain;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import tikape2.runko.domain.Retrievable;
 
@@ -18,7 +19,7 @@ public class Alue implements Retrievable<Alue>{
     private String otsikko;
 
    
-    private String viimeisinViesti;
+    private Date viimeisinViesti;
     private Integer viesteja_alueessa;
     
     public Alue(){};
@@ -48,11 +49,11 @@ public class Alue implements Retrievable<Alue>{
         this.otsikko = otsikko;
     }
     
-     public String getViimeisinViesti() {
+     public Date getViimeisinViesti() {
         return viimeisinViesti;
     }
 
-    public void setViimeisinViesti(String viimeisinViesti) {
+    public void setViimeisinViesti(Date viimeisinViesti) {
         this.viimeisinViesti = viimeisinViesti;
     }
 

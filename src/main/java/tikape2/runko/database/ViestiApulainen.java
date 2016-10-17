@@ -41,7 +41,7 @@ public class ViestiApulainen extends Apulainen<Viesti> {
 
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setInt(1, viesti.getLankaid());
-        statement.setTimestamp(2, viesti.getAikaleima());
+        statement.setDate(2, viesti.getAikaleima());
         statement.setString(3, viesti.getViesti());
         statement.setString(4, viesti.getNimimerkki());
 
