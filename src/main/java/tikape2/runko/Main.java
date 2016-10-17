@@ -67,6 +67,17 @@ public class Main {
 
             return new ModelAndView(map, "alue");
         }, new ThymeleafTemplateEngine());
+        
+        post("/alueet/:id", (req, res) -> {
+            int alueid = Integer.parseInt(req.params(":id"));
+            String otsikko = req.queryParams("lanka");
+            Lanka lanka = new Lanka(alueid, otsikko);
+            lankaapulainen.create(lanka);
+            
+            res.redirect("/alueet/" + alueid);
+            
+            return "";
+        });
 
         post("/alueet", (req, res) -> {
             HashMap map = new HashMap<>();

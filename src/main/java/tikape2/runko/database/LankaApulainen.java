@@ -47,6 +47,8 @@ public class LankaApulainen extends Apulainen<Lanka> {
         if (lanka == null) {
             throw new SQLException("lanka :(");
         } else {
+            statement.close();
+            connection.close();
             return lanka;
         }
 
@@ -67,6 +69,9 @@ public class LankaApulainen extends Apulainen<Lanka> {
             lanka.setOtsikko(tulos.getString("otsikko"));
             langat.add(lanka);
         }
+        
+        statement.close();
+        connection.close();
         return langat;
     }
 
@@ -79,7 +84,7 @@ public class LankaApulainen extends Apulainen<Lanka> {
                 + "LEFT JOIN Viesti ON Alue.id = Lanka.alueid AND Lanka.id = Viesti.lankaid "
                 + "WHERE Lanka.alueid = ? "
                 + "GROUP BY Lanka.id;";
-        
+
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setObject(1, key);
 
@@ -89,7 +94,7 @@ public class LankaApulainen extends Apulainen<Lanka> {
         while (tulos.next()) {
 
             Integer id = tulos.getInt("id");
-          //  Integer alue_id = tulos.getInt("alue_id"); // EI TOIMII "GROUP BY":n kanssa
+            //  Integer alue_id = tulos.getInt("alue_id"); // EI TOIMII "GROUP BY":n kanssa
             String otsikko = tulos.getString("otsikko");
 
             Lanka l = new Lanka(id, Integer.parseInt(key), otsikko);
@@ -99,9 +104,12 @@ public class LankaApulainen extends Apulainen<Lanka> {
             langat.add(l);
         }
 
+        statement.close();
+        connection.close();
+        
         return langat;
     }
-    
+
     public List<Viesti> getKaikkiViestit(String key) throws SQLException {
         Connection connection = this.database.getConnection();
 
@@ -109,17 +117,17 @@ public class LankaApulainen extends Apulainen<Lanka> {
                 = "SELECT Viesti.id AS id, Viesti.teksti AS teksti, Viesti.nimimerkki AS nimimerkki "
                 + "FROM Viesti, Lanka "
                 + "WHERE Lanka.id = Viesti.lankaid AND Lanka.id = ?";
-        
+
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setObject(1, key);
 
         ResultSet tulos = statement.executeQuery();
-        
+
         List<Viesti> viestit = new ArrayList<>();
-        
+
         while (tulos.next()) {
             Integer id = tulos.getInt("id");
-          //  Integer alue_id = tulos.getInt("alue_id"); // EI TOIMII "GROUP BY":n kanssa
+            //  Integer alue_id = tulos.getInt("alue_id"); // EI TOIMII "GROUP BY":n kanssa
             String teksti = tulos.getString("teksti");
             String nimimerkki = tulos.getString("nimimerkki");
 
@@ -128,12 +136,27 @@ public class LankaApulainen extends Apulainen<Lanka> {
 
             viestit.add(v);
         }
-        
+        statement.close();
+        connection.close();
+
         return viestit;
     }
 
     @Override
     public Lanka create(Lanka t) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Connection connection = this.database.getConnection();
+
+        String sql = "INSERT INTO Lanka (alueid, otsikko) VALUES (?, ?)";
+
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, t.getAlueid());
+        statement.setString(2, t.getOtsikko());
+
+        statement.executeUpdate();
+
+        statement.close();
+        connection.close();
+        
+        return t;
     }
 }

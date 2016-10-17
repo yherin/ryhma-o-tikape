@@ -46,6 +46,8 @@ public class ViestiApulainen extends Apulainen<Viesti> {
         statement.setString(4, viesti.getNimimerkki());
 
         statement.executeUpdate();
+        statement.close();
+        connection.close();
 
         return viesti;
     }

@@ -39,6 +39,11 @@ public class Lanka implements Retrievable<Lanka> {
         
         this.otsikko = otsikko;
     }
+     
+     public Lanka(int alueid,  String otsikko) {
+        this.alueid = alueid;
+        this.otsikko = otsikko;
+    }
 
     
     public int getId() {

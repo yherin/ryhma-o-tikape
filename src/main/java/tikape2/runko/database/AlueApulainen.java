@@ -49,6 +49,8 @@ public class AlueApulainen extends Apulainen<Alue> {
         if (alue == null) {
             throw new SQLException("alue was null :(");
         } else {
+            statement.close();
+            connection.close();
             return alue;
         }
 
@@ -69,6 +71,9 @@ public class AlueApulainen extends Apulainen<Alue> {
             alueet.add(alue);
         }
         //EI VIELÄ VALMIS
+
+        statement.close();
+        connection.close();
         return alueet;
     }
 
@@ -99,6 +104,8 @@ public class AlueApulainen extends Apulainen<Alue> {
 
         }
 
+        statement.close();
+        connection.close();
         return alueet;
     }
 
@@ -113,6 +120,8 @@ public class AlueApulainen extends Apulainen<Alue> {
 
         statement.executeUpdate();
 
+        statement.close();
+        connection.close();
         return alue;
     }
 
