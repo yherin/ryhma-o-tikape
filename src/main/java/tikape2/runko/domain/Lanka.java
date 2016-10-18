@@ -6,6 +6,7 @@
 package tikape2.runko.domain;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import tikape2.runko.domain.Retrievable;
 
@@ -20,6 +21,7 @@ public class Lanka implements Retrievable<Lanka> {
     private List<Viesti> viestit;
     private String otsikko;
     
+    private String viimeisinViestiString;
     private Date viimeisinViesti;
     private Integer viesteja_langassa;
 
@@ -98,6 +100,15 @@ public class Lanka implements Retrievable<Lanka> {
     @Override
     public String toString() {
         return "Lanka{" + "id=" + id + ", alueid=" + alueid + ", viestit=" + viestit + ", otsikko=" + otsikko + ", viimeisinViesti=" + viimeisinViesti + ", viesteja_langassa=" + viesteja_langassa + '}';
+    }
+
+    public String getViimeisinViestiString() {
+        try {
+        String aikaleima = new SimpleDateFormat("HH:mm:ss dd-MM-YYYY").format(this.viimeisinViesti);
+        return aikaleima;
+        } catch (NullPointerException e){
+            return "Ei viestejä";
+        }
     }
     
     
