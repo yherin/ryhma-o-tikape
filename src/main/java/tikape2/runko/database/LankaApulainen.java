@@ -130,6 +130,7 @@ public class LankaApulainen extends Apulainen<Lanka> {
             //  Integer alue_id = tulos.getInt("alue_id"); // EI TOIMII "GROUP BY":n kanssa
             String teksti = tulos.getString("teksti");
             String nimimerkki = tulos.getString("nimimerkki");
+            nimimerkki = "-" + nimimerkki;
 
             Viesti v = new Viesti(id, Integer.parseInt(key), teksti, nimimerkki);
             //v.setAikaleima(tulos.getTimestamp(Viesti.aikaleima));

@@ -23,8 +23,16 @@ import tikape2.runko.domain.Viesti;
 public class Main {
 
     public static void main(String[] args) throws Exception {
+        port(getHerokuAssignedPort());
+        
+        String dbOsoite = "jdbc:sqlite:foorumi.db";
+        
+         if (System.getenv("DATABASE_URL") != null) {
+            dbOsoite = System.getenv("DATABASE_URL");
+        } 
 
-        Database database = new Database("jdbc:sqlite:foorumi.db");
+        
+        Database database = new Database(dbOsoite);
 
 
         AlueApulainen alueapulainen = new AlueApulainen(database);  //MEIDÄN TOTEUTUS mutta ei toimi vielä
@@ -88,6 +96,7 @@ public class Main {
             String id = req.params(":id");
             Lanka lanka = (Lanka) lankaapulainen.getSingle(Integer.parseInt(id));
             List<Viesti> viestit = lankaapulainen.getKaikkiViestit(id);
+            double sivut = sivumaara(viestit.size());
             System.out.println(viestit);
 
             map.put("viestit", viestit);
@@ -109,6 +118,24 @@ public class Main {
             res.redirect("/langat/" + lankaid);
             return "";
         });
+        
+        
+    }
+    
+    static int sivumaara(int size){
+            
+            double i =  size / 10;
+             i = Math.round(i);
+             
+             return (int) i;
+        }
+    
+    static int getHerokuAssignedPort() {
+        ProcessBuilder processBuilder = new ProcessBuilder();
+        if (processBuilder.environment().get("PORT") != null ) {
+            return Integer.parseInt(processBuilder.environment().get("PORT"));
+        }
+        return 4567;
     }
 
 }
