@@ -6,8 +6,11 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.SimpleTimeZone;
+import java.util.TimeZone;
 import spark.ModelAndView;
 import static spark.Spark.*;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
@@ -109,7 +112,10 @@ public class Main {
             HashMap map = new HashMap<>();
             int lankaid = Integer.parseInt(req.params(":id"));
             Timestamp time = new Timestamp(System.currentTimeMillis());
-            Date aika = new Date(time.getTime());
+            
+            Date aika = new Date(time.getTime() + TimeZone.getTimeZone("Europe/Helsinki").getOffset(time.getTime()));
+             
+            
             String viesti = req.queryParams("viesti");
             String nimimerkki = req.queryParams("nimimerkki");
             Viesti v = new Viesti(lankaid, aika, viesti, nimimerkki);
