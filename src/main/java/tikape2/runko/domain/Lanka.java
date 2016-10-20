@@ -104,7 +104,7 @@ public class Lanka implements Retrievable<Lanka> {
 
     public String getViimeisinViestiString() {
         try {
-        String aikaleima = new SimpleDateFormat("HH:mm:ss dd-MM-YYYY").format(this.viimeisinViesti);
+        String aikaleima = new SimpleDateFormat("dd-MM-YYYY HH:mm:ss").format(this.viimeisinViesti);
         return aikaleima;
         } catch (NullPointerException e){
             return "Ei viestejä";

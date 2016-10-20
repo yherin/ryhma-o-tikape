@@ -65,7 +65,7 @@ public class Viesti implements Retrievable<Viesti>{
            
     public String getAikaleimaString() {
         try {
-        String aika = new SimpleDateFormat("HH:mm:ss dd-MM-YYYY").format(this.aikaleima);
+        String aika = new SimpleDateFormat("dd-MM-YYYY HH:mm:ss").format(this.aikaleima);
         return aika;
         } catch (NullPointerException e){
             return "Ei viestejä";
