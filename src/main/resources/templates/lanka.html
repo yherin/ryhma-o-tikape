@@ -1,33 +1,38 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
--->
 
 <head>
+    <link rel="stylesheet" type="text/css" href="/tyyli.css" />
+    
     <title> Keskustelufoorumi </title>
         
     </head>
     <body>
         
-        <h1 th:text="${lanka.otsikko}"></h1>
+        <h1>
+            <a th:href="@{~/alueet}">Alueet</a> ➝ 
+            <a th:href="@{~/alueet/{id}(id=${alue.id})}"><span th:text="${alue.otsikko}"></span></a> ➝
+            <span th:text="${lanka.otsikko}"></span>
+        </h1>
+        
         <ol>
             <li th:each=" viesti: ${viestit}">
-                <span th:text="${viesti.viesti}" ></span>
-                <span th:text="${viesti.nimimerkki}" ></span>
+                <b><span th:text="${viesti.nimimerkki}" ></span></b>:
+                <i><span th:text="${viesti.AikaleimaString}" class="date" ></span></i>
+                <p th:text="${viesti.viesti}" ></p>
             </li>
         </ol>
-        
+        <section>
         <form method="POST" th:action="@{~/langat/{id}(id=${lanka.id})}">
-            Lisää viesti: <br/>
-           
-            <textarea cols="40" rows="5" name="viesti"></textarea>
-            <br/>
-            Nimimerkki: 
+            Nimimerkki: <br/>
             <input type="text" name="nimimerkki"/><br/>
+            Lisää viesti: <br/>
+            <textarea cols="40" rows="5" name="viesti"></textarea><br/>
             <input type="submit" value="lisää"/>
         </form>
+        </section>
         
-        
-        <a th:href="@{~/alueet}">etusivulle</a>
+        <br/><a th:href="@{~/alueet}">etusivulle</a>
         
     </body>
 </html>

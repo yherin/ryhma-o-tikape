@@ -2,43 +2,46 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
     <head>
+        <link rel="stylesheet" type="text/css" href="/tyyli.css" />
+        
         <title>Keskustelufoorumi</title>
         <meta charset="utf-8" />
     </head>
 
     <body>
-        <h1>Alueet</h1>
-
+        <h1 class="alueet">Alueet</h1>
 
         <table>
             <tr>
-                <th>Alue</th>
-                <th>Viestejä yhteensä</th>
-                <th>Viimeisin viesti</th>
+                <th class="table-left">Alue</th>
+                <th class="table-center">Viestejä yhteensä</th>
+                <th class="table-right">Viimeisin viesti</th>
             </tr>
             
             <tr th:each="alue: ${alueet}">
                 
           
                 
-                <td> 
+                <td class="table-left"> 
                     <a th:href="@{~/alueet/{id}(id=${alue.id})}"  th:text="${alue.otsikko}"></a>
                 </td> 
-                <td> 
+                <td class="table-center"> 
                     <span th:text="${alue.viesteja_alueessa}"></span>
                 </td>
-                <td>
+                <td class="table-right">
                     <span th:text="${alue.viimeisinViestiString}"></span>
                 </td>
                 
             </tr>
         </table>
         
+        <section>
         <form method="POST" action="/alueet">
             Lisää alue: <br/>
             <input type="text" name="alue"/><br/>
             <input type="submit" value="lisää"/>
         </form>
+        </section>
         
     </body>
 </html>

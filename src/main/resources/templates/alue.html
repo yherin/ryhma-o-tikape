@@ -1,40 +1,47 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    -->
 
     <head>
+        <link rel="stylesheet" type="text/css" href="/tyyli.css" />
+        
         <title> Keskustelufoorumi </title>
 
     </head>
     <body>
 
-        <h1 th:text="${alue.otsikko}"></h1>
+        <h1 class="alue">
+            <a th:href="@{~/alueet}">Alueet</a> ➝ 
+            <span th:text="${alue.otsikko}"></span>
+        </h1>
 
         <table>
             <tr>
-                <th>Alue</th>
-                <th>Viestejä</th>
-                <th>Viimeisin viesti</th>
+                <th class="table-left">Alue</th>
+                <th class="table-center">Viestejä</th>
+                <th class="table-right">Viimeisin viesti</th>
             </tr>
 
             <tr th:each=" lanka: ${langat}">
-                <td>
+                <td class="table-left">
                     <a th:href="${'/langat/' + lanka.id}" > <span th:text="${lanka.otsikko}" ></span> </a>
                 </td> 
-                <td>
+                <td class="table-center">
                     <span th:text="${lanka.viesteja_langassa}" ></span>
                 </td> 
-                <td>
+                <td class="table-right">
                     <span th:text="${lanka.viimeisinViestiString}" ></span>
                 </td>
             </tr>
         </table>
-        
+        <section>
         <form method="POST" th:action="@{~/alueet/{id}(id=${alue.id})}">
             Lisää lanka: <br/>
             <input type="text" name="lanka"/><br/>
             <input type="submit" value="lisää"/>
         </form>
+        </section>
+        
+        <br/><a th:href="@{~/alueet}">etusivulle</a>
 
     </body>
 </html>

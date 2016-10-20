@@ -42,6 +42,7 @@ public class LankaApulainen extends Apulainen<Lanka> {
 
         Lanka lanka = new Lanka();
         lanka.setId(tulos.getInt("id"));
+        lanka.setAlueid(tulos.getInt("alueid"));
         lanka.setOtsikko(tulos.getString("otsikko"));
 
         if (lanka == null) {
@@ -114,7 +115,7 @@ public class LankaApulainen extends Apulainen<Lanka> {
         Connection connection = this.database.getConnection();
 
         String sql
-                = "SELECT Viesti.id AS id, Viesti.teksti AS teksti, Viesti.nimimerkki AS nimimerkki "
+                = "SELECT Viesti.id AS id, Viesti.teksti AS teksti, Viesti.nimimerkki AS nimimerkki, Viesti.aikaleima AS aikaleima "
                 + "FROM Viesti, Lanka "
                 + "WHERE Lanka.id = Viesti.lankaid AND Lanka.id = ?";
 
@@ -130,9 +131,10 @@ public class LankaApulainen extends Apulainen<Lanka> {
             //  Integer alue_id = tulos.getInt("alue_id"); // EI TOIMII "GROUP BY":n kanssa
             String teksti = tulos.getString("teksti");
             String nimimerkki = tulos.getString("nimimerkki");
-            nimimerkki = "-" + nimimerkki;
 
             Viesti v = new Viesti(id, Integer.parseInt(key), teksti, nimimerkki);
+            
+            v.setAikaleima(tulos.getDate("aikaleima"));
             //v.setAikaleima(tulos.getTimestamp(Viesti.aikaleima));
 
             viestit.add(v);

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.SimpleTimeZone;
 import java.util.TimeZone;
 import spark.ModelAndView;
+import spark.Spark;
 import static spark.Spark.*;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 import tikape2.runko.database.AlueApulainen;
@@ -37,6 +38,7 @@ public class Main {
         
         Database database = new Database(dbOsoite);
 
+        Spark.staticFileLocation("/styles");
 
         AlueApulainen alueapulainen = new AlueApulainen(database);  //MEIDÄN TOTEUTUS mutta ei toimi vielä
         LankaApulainen lankaapulainen = new LankaApulainen(database);
@@ -98,12 +100,14 @@ public class Main {
             HashMap map = new HashMap<>();
             String id = req.params(":id");
             Lanka lanka = (Lanka) lankaapulainen.getSingle(Integer.parseInt(id));
+            Alue alue = (Alue) alueapulainen.getSingle(lanka.getAlueid());
             List<Viesti> viestit = lankaapulainen.getKaikkiViestit(id);
             double sivut = sivumaara(viestit.size());
             System.out.println(viestit);
 
             map.put("viestit", viestit);
             map.put("lanka", lanka);
+            map.put("alue", alue);
 
             return new ModelAndView(map, "lanka");
         }, new ThymeleafTemplateEngine());

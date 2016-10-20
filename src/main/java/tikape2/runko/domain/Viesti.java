@@ -6,6 +6,7 @@
 package tikape2.runko.domain;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import tikape2.runko.domain.Retrievable;
 /**
  *
@@ -61,6 +62,15 @@ public class Viesti implements Retrievable<Viesti>{
     public String getNimimerkki() {
         return nimimerkki;
     }
+           
+    public String getAikaleimaString() {
+        try {
+        String aika = new SimpleDateFormat("HH:mm:ss dd-MM-YYYY").format(this.aikaleima);
+        return aika;
+        } catch (NullPointerException e){
+            return "Ei viestejä";
+        }
+    }
 
     public void setId(int id) {
         this.id = id;
@@ -81,8 +91,6 @@ public class Viesti implements Retrievable<Viesti>{
     public void setNimimerkki(String nimimerkki) {
         this.nimimerkki = nimimerkki;
     }
-    
-    
     
     
 }
