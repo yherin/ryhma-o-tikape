@@ -117,7 +117,8 @@ public class Main {
             int sivu = Integer.parseInt(req.params(":sivu"));
             Lanka lanka = (Lanka) lankaapulainen.getSingle(Integer.parseInt(id));
             Alue alue = (Alue) alueapulainen.getSingle(lanka.getAlueid());
-            List<Viesti> viestit = lankaapulainen.getKaikkiViestit(id, sivu);            
+            List<Viesti> viestit = lankaapulainen.getKaikkiViestit(id, sivu);
+            int sivumaara = lankaapulainen.getSivujenMaaraLangassa(id);
             
             System.out.println(viestit);
 
@@ -127,6 +128,7 @@ public class Main {
             map.put("lanka", lanka);
             map.put("alue", alue);
             map.put("sivu", sivu);
+            map.put("sivumaara", sivumaara);
 
             return new ModelAndView(map, "lanka");
         }, new ThymeleafTemplateEngine());

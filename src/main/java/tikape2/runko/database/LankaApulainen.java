@@ -195,6 +195,28 @@ public class LankaApulainen extends Apulainen<Lanka> {
 
         return viestit;
     }
+    
+    public int getSivujenMaaraLangassa(String key) throws SQLException {
+        Connection connection = this.database.getConnection();
+            String sql
+                = "SELECT COUNT(Viesti.id) AS lukumaara "
+                + "FROM Viesti, Lanka "
+                + "WHERE Lanka.id = Viesti.lankaid AND Lanka.id = ? ;";
+
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setObject(1, key);
+
+        ResultSet tulos = statement.executeQuery();
+        Integer lkm = 0;
+        
+        while (tulos.next()) {
+            lkm = tulos.getInt("lukumaara");
+        }
+        statement.close();
+        connection.close();
+
+        return (int) Math.ceil(1.0 * lkm/10);       
+    }
 
     @Override
     public Lanka create(Lanka t) throws SQLException {

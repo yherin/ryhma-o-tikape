@@ -24,17 +24,28 @@
         </ol>
        
         <div id="sivuvalinta">
-            <br/> <span class="tab">Valitse sivu:</span>
-            <a th:href="@{~/langat/{id}(id=${lanka.id})} + '/' + ${sivu - 1}" th:if="${sivu} &gt; 1">
+            <br/><span class="tab">Valitse sivu:</span>
+            
+            <a th:href="@{~/langat/{id}(id=${lanka.id})} + '/' + ${1}" th:if="${sivumaara} > 0 and ${sivu} != 1">
+            <span class="sivuvalitsin" th:text="1" title="Ensimmäinen sivu">ensimmäinen sivu</span></a>
+
+            <a th:href="@{~/langat/{id}(id=${lanka.id})} + '/' + ${sivu - 2}" th:if="${sivu} &gt; 3">
+            <span class="sivuvalitsin" th:text="${sivu - 2}" title="Edellisempi sivu">2*edellinen sivu</span></a>
+            
+            <a th:href="@{~/langat/{id}(id=${lanka.id})} + '/' + ${sivu - 1}" th:if="${sivu} &gt; 2">
             <span class="sivuvalitsin" th:text="${sivu - 1}" title="Edellinen sivu">edellinen sivu</span></a>
             
             <b class="tamasivu" th:text="${sivu}"></b>
-<!--    Seuraava sivu -nappi: osoite = /langat/lanka.id/sivu + 1, ilmestyy vain, jos muuttuja sivu < 3.
-        3 on vaan placeholder, se pitää korvata muuttujalla, josta selviää langan sivumäärä
-        muuttuja voisi olla esim. COUNT(viestit), jaetaan kymmenellä ja round up    -->
 
-            <a th:href="@{~/langat/{id}(id=${lanka.id})} + '/' + ${sivu + 1}" th:if="${sivu} &lt; 3">
+            <a th:href="@{~/langat/{id}(id=${lanka.id})} + '/' + ${sivu + 1}" th:if="${sivu + 1} &lt; ${sivumaara}">
             <span class="sivuvalitsin" th:text="${sivu + 1}" title="Seuraava sivu">seuraava sivu</span></a>
+            
+            <a th:href="@{~/langat/{id}(id=${lanka.id})} + '/' + ${sivu + 2}" th:if="${sivu + 2} &lt; ${sivumaara}">
+            <span class="sivuvalitsin" th:text="${sivu + 2}" title="Seuraavampi sivu">2*seuraava sivu</span></a>
+            
+            
+            <a th:href="@{~/langat/{id}(id=${lanka.id})} + '/' + ${sivumaara}" th:if="${sivumaara} &gt; 2 and ${sivu} &lt; ${sivumaara}">
+            <span class="sivuvalitsin" th:text="${sivumaara}" title="Viimeinen sivu">viimeinen sivu</span></a>
         </div>
         
         <div id="datansyotto">
