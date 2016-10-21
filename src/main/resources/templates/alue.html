@@ -23,7 +23,7 @@
 
             <tr th:each=" lanka: ${langat}">
                 <td class="table-left">
-                    <a th:href="${'/langat/' + lanka.id}" > <span th:text="${lanka.otsikko}" ></span> </a>
+                    <a th:href="${'/langat/' + lanka.id + '/1'}" > <span th:text="${lanka.otsikko}" ></span> </a>
                 </td> 
                 <td class="table-center">
                     <span th:text="${lanka.viesteja_langassa}" ></span>

@@ -154,58 +154,47 @@ public class LankaApulainen extends Apulainen<Lanka> {
         return viestit;
     }
 
-//    public List<Viesti> getKaikkiViestit(String key, int offset) throws SQLException {
-//        Connection connection = this.database.getConnection();
-//        ResultSet tulos = null;
-//        if (offset != 0) {
-//
-//            String sql
-//                    = "SELECT Viesti.id AS id, Viesti.teksti AS teksti, Viesti.nimimerkki AS nimimerkki, Viesti.aikaleima AS aikaleima, MAX(Viesti.aikaleima) as viimeisin "
-//                    + "FROM Viesti, Lanka "
-//                    + "WHERE Lanka.id = Viesti.lankaid AND Lanka.id = ?"
-//                    + "ORDER BY viimeisin DESC LIMIT 10 OFFSET ?";
-//
-//            PreparedStatement statement = connection.prepareStatement(sql);
-//            statement.setObject(1, key);
-//
-//            statement.setObject(2, offset);
-//            tulos = statement.executeQuery();
-//
-//        } else {
-//            String sql
-//                    = "SELECT Viesti.id AS id, Viesti.teksti AS teksti, Viesti.nimimerkki AS nimimerkki, Viesti.aikaleima AS aikaleima, MAX(Viesti.aikaleima) as viimeisin "
-//                    + "FROM Viesti, Lanka "
-//                    + "WHERE Lanka.id = Viesti.lankaid AND Lanka.id = ?"
-//                    + "ORDER BY viimeisin DESC LIMIT 10";
-//
-//            PreparedStatement statement = connection.prepareStatement(sql);
-//            statement.setObject(1, key);
-//            tulos = statement.executeQuery();
-//        }
-//
-//        List<Viesti> viestit = new ArrayList<>();
-//
-//        while (tulos.next()) {
-//            Integer id = tulos.getInt("id");
-//            //  Integer alue_id = tulos.getInt("alue_id"); // EI TOIMII "GROUP BY":n kanssa
-//            String teksti = tulos.getString("teksti");
-//            String nimimerkki = tulos.getString("nimimerkki");
-//
-//            Viesti v = new Viesti(id, Integer.parseInt(key), teksti, nimimerkki);
-//
-//            //new SimpleDateFormat("dd-MM-YYYY HH:mm:ss").format(this.viimeisinViesti);
-//            SimpleDateFormat dateformat = new SimpleDateFormat("dd-MM-YYYY HH:mm:ss");
-//
-//            v.setAikaleima(tulos.getDate("aikaleima"));
-//            //v.setAikaleima(tulos.getTimestamp(Viesti.aikaleima));
-//
-//            viestit.add(v);
-//        }
-//        System.out.println("viestit: " + viestit);
-//        connection.close();
-//
-//        return viestit;
-//    }
+    public List<Viesti> getKaikkiViestit(String key, int sivu) throws SQLException {
+        Connection connection = this.database.getConnection();
+        ResultSet tulos = null;
+        int offset = (sivu -1) * 10;
+        
+
+            String sql
+                    = "SELECT Viesti.id AS id, Viesti.teksti AS teksti, Viesti.nimimerkki AS nimimerkki, Viesti.aikaleima AS aikaleima "
+                    + "FROM Viesti, Lanka "
+                    + "WHERE Lanka.id = Viesti.lankaid AND Lanka.id = ? "
+                    + "ORDER BY aikaleima ASC LIMIT 10 OFFSET ?";
+
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setObject(1, key);
+
+            statement.setObject(2, offset);
+            tulos = statement.executeQuery();
+
+        List<Viesti> viestit = new ArrayList<>();
+
+        while (tulos.next()) {
+            Integer id = tulos.getInt("id");
+            //  Integer alue_id = tulos.getInt("alue_id"); // EI TOIMII "GROUP BY":n kanssa
+            String teksti = tulos.getString("teksti");
+            String nimimerkki = tulos.getString("nimimerkki");
+
+            Viesti v = new Viesti(id, Integer.parseInt(key), teksti, nimimerkki);
+
+            //new SimpleDateFormat("dd-MM-YYYY HH:mm:ss").format(this.viimeisinViesti);
+            SimpleDateFormat dateformat = new SimpleDateFormat("dd-MM-YYYY HH:mm:ss");
+
+            v.setAikaleima(tulos.getDate("aikaleima"));
+            //v.setAikaleima(tulos.getTimestamp(Viesti.aikaleima));
+
+            viestit.add(v);
+        }
+        System.out.println("viestit: " + viestit);
+        connection.close();
+
+        return viestit;
+    }
 
     @Override
     public Lanka create(Lanka t) throws SQLException {

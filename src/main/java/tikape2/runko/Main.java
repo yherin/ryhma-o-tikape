@@ -111,44 +111,33 @@ public class Main {
             return "";
         });
 
-        get("/langat/:id", (req, res) -> {
+        get("/langat/:id/:sivu", (req, res) -> {  
             HashMap map = new HashMap<>();
             String id = req.params(":id");
+            int sivu = Integer.parseInt(req.params(":sivu"));
             Lanka lanka = (Lanka) lankaapulainen.getSingle(Integer.parseInt(id));
             Alue alue = (Alue) alueapulainen.getSingle(lanka.getAlueid());
-            List<Viesti> viestit = lankaapulainen.getKaikkiViestit(id);
-
-////            List<List<Viesti>> pages = new ArrayList<>();
-//            double sivut = sivumaara(viestit.size());
-//            int i = 0;
-//            while(i < sivut) {
-//                List<Viesti> viestit2 = lankaapulainen.getKaikkiViestit(id, i*10);
-//                map.put("viestit", viestit2);
-//                i++;
-//            }
-//            
+            List<Viesti> viestit = lankaapulainen.getKaikkiViestit(id, sivu);
             
             
-//            
-//            for (int i = 0; i < sivut; i++) {
-//
-//                for (int j = 0; j < 10; j++) {
-//                    pages.get(i).add(viestit.get(j));
-//                }
-//            }
+            
+            //10 viestia per lista
+            
+        
 
             System.out.println(viestit);
 
             SimpleDateFormat dateformat = new SimpleDateFormat();
             
         map.put("viestit", viestit);
-            // {viestit.get(:id)
-//            pages.get(1);
+
             map.put("lanka", lanka);
             map.put("alue", alue);
 
             return new ModelAndView(map, "lanka");
         }, new ThymeleafTemplateEngine());
+        
+        
 
         post("/langat/:id", (req, res) -> {
             HashMap map = new HashMap<>();
@@ -162,7 +151,7 @@ public class Main {
             Viesti v = new Viesti(lankaid, aika, viesti, nimimerkki);
 
             viestiapulainen.create(v);
-            res.redirect("/langat/" + lankaid);
+            res.redirect("/langat/" + lankaid + "/1");
             return "";
         });
 
