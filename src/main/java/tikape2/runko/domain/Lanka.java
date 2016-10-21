@@ -20,20 +20,34 @@ public class Lanka implements Retrievable<Lanka> {
     private int alueid;
     private List<Viesti> viestit;
     private String otsikko;
+    private String teksti;
+    private Viesti viesti;
     
     private String viimeisinViestiString;
     private Date viimeisinViesti;
     private Integer viesteja_langassa;
+    
+    private String nimimerkki;
 
     public Lanka(){
         
     }
     
-    public Lanka(int id, int alueid, List<Viesti> viestit, String otsikko) {
+    public Lanka(int id, int alueid, List<Viesti> viestit, String otsikko, String teksti, String nimimerkki) {
         this.id = id;
         this.alueid = alueid;
         this.viestit = viestit;
         this.otsikko = otsikko;
+        this.teksti = teksti;
+        this.nimimerkki = nimimerkki;
+        
+    }
+    
+    public Lanka( int alueid, String otsikko,Viesti viesti) {
+        this.alueid = alueid;
+        this.otsikko = otsikko;
+        this.viesti = viesti;
+        
     }
     
      public Lanka(int id, int alueid,  String otsikko) {
@@ -109,6 +123,26 @@ public class Lanka implements Retrievable<Lanka> {
         } catch (NullPointerException e){
             return "Ei viestejä";
         }
+    }
+    
+    public long getViimeisinViestiAika(){
+        return this.getViimeisinViesti().getTime();
+    }
+
+    public String getTeksti() {
+        return teksti;
+    }
+
+    public void setTeksti(String teksti) {
+        this.teksti = teksti;
+    }
+
+    public Viesti getViesti() {
+        return viesti;
+    }
+
+    public void setViesti(Viesti viesti) {
+        this.viesti = viesti;
     }
     
     

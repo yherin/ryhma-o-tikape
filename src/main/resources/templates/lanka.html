@@ -25,9 +25,9 @@
         <section>
         <form method="POST" th:action="@{~/langat/{id}(id=${lanka.id})}">
             Nimimerkki: <br/>
-            <input type="text" name="nimimerkki"/><br/>
+            <input type="text" name="nimimerkki" required="required"/><br/>
             Lisää viesti: <br/>
-            <textarea cols="40" rows="5" name="viesti"></textarea><br/>
+            <textarea cols="40" rows="5" name="viesti" required="required"></textarea><br/>
             <input type="submit" value="lisää"/>
         </form>
         </section>

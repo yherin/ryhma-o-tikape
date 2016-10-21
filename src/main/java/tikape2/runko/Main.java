@@ -6,6 +6,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +20,7 @@ import spark.template.thymeleaf.ThymeleafTemplateEngine;
 import tikape2.runko.database.AlueApulainen;
 import tikape2.runko.database.Database;
 import tikape2.runko.database.LankaApulainen;
+import tikape2.runko.database.NoInject;
 import tikape2.runko.database.OpiskelijaDao;
 import tikape2.runko.database.ViestiApulainen;
 import tikape2.runko.domain.Alue;
@@ -28,14 +31,13 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         port(getHerokuAssignedPort());
-        
-        String dbOsoite = "jdbc:sqlite:foorumi.db";
-        
-         if (System.getenv("DATABASE_URL") != null) {
-            dbOsoite = System.getenv("DATABASE_URL");
-        } 
 
-        
+        String dbOsoite = "jdbc:sqlite:foorumi.db";
+
+        if (System.getenv("DATABASE_URL") != null) {
+            dbOsoite = System.getenv("DATABASE_URL");
+        }
+
         Database database = new Database(dbOsoite);
 
         Spark.staticFileLocation("/styles");
@@ -74,21 +76,34 @@ public class Main {
 
             return new ModelAndView(map, "alue");
         }, new ThymeleafTemplateEngine());
-        
+
         post("/alueet/:id", (req, res) -> {
             int alueid = Integer.parseInt(req.params(":id"));
-            String otsikko = req.queryParams("lanka");
-            Lanka lanka = new Lanka(alueid, otsikko);
+            String otsikko = NoInject.cleanHtml(req.queryParams("lanka"));
+            String nimimerkki =  NoInject.cleanHtml(req.queryParams("nimimerkki"));
+            String teksti =  NoInject.cleanHtml(req.queryParams("viesti"));
+            
+              Timestamp time = new Timestamp(System.currentTimeMillis());
+
+            Date aika = new Date(time.getTime() + TimeZone.getTimeZone("Europe/Helsinki").getOffset(time.getTime()));
+            
+            Viesti viesti = new Viesti(aika, teksti, nimimerkki);
+            Lanka lanka = new Lanka(alueid, otsikko, viesti);
+            
+            
             lankaapulainen.create(lanka);
             
+      //      Viesti viesti = new Viesti(lanka.getId(), aika, teksti, nimimerkki);
+        //    viestiapulainen.create(viesti);
+
             res.redirect("/alueet/" + alueid);
-            
+
             return "";
         });
 
         post("/alueet", (req, res) -> {
             HashMap map = new HashMap<>();
-            String otsikko = req.queryParams("alue");
+            String otsikko =  NoInject.cleanHtml(req.queryParams("alue"));
             Alue alue = new Alue(otsikko);
 
             alueapulainen.create(alue);
@@ -102,10 +117,33 @@ public class Main {
             Lanka lanka = (Lanka) lankaapulainen.getSingle(Integer.parseInt(id));
             Alue alue = (Alue) alueapulainen.getSingle(lanka.getAlueid());
             List<Viesti> viestit = lankaapulainen.getKaikkiViestit(id);
-            double sivut = sivumaara(viestit.size());
+
+////            List<List<Viesti>> pages = new ArrayList<>();
+//            double sivut = sivumaara(viestit.size());
+//            int i = 0;
+//            while(i < sivut) {
+//                List<Viesti> viestit2 = lankaapulainen.getKaikkiViestit(id, i*10);
+//                map.put("viestit", viestit2);
+//                i++;
+//            }
+//            
+            
+            
+//            
+//            for (int i = 0; i < sivut; i++) {
+//
+//                for (int j = 0; j < 10; j++) {
+//                    pages.get(i).add(viestit.get(j));
+//                }
+//            }
+
             System.out.println(viestit);
 
-            map.put("viestit", viestit);
+            SimpleDateFormat dateformat = new SimpleDateFormat();
+            
+        map.put("viestit", viestit);
+            // {viestit.get(:id)
+//            pages.get(1);
             map.put("lanka", lanka);
             map.put("alue", alue);
 
@@ -116,33 +154,33 @@ public class Main {
             HashMap map = new HashMap<>();
             int lankaid = Integer.parseInt(req.params(":id"));
             Timestamp time = new Timestamp(System.currentTimeMillis());
-            
+
             Date aika = new Date(time.getTime() + TimeZone.getTimeZone("Europe/Helsinki").getOffset(time.getTime()));
-             
-            
-            String viesti = req.queryParams("viesti");
-            String nimimerkki = req.queryParams("nimimerkki");
+
+            String viesti =  NoInject.cleanHtml(req.queryParams("viesti"));
+            String nimimerkki =  NoInject.cleanHtml(req.queryParams("nimimerkki"));
             Viesti v = new Viesti(lankaid, aika, viesti, nimimerkki);
 
             viestiapulainen.create(v);
             res.redirect("/langat/" + lankaid);
             return "";
         });
-        
-        
+
     }
-    
-    static int sivumaara(int size){
-            
-            double i =  size / 10;
-             i = Math.round(i);
-             
-             return (int) i;
+
+    static int sivumaara(int size) {
+
+        double i = size / 10;
+        i = Math.round(i);
+        if (i < 1){
+            return 1;
         }
-    
+        return (int) i;
+    }
+
     static int getHerokuAssignedPort() {
         ProcessBuilder processBuilder = new ProcessBuilder();
-        if (processBuilder.environment().get("PORT") != null ) {
+        if (processBuilder.environment().get("PORT") != null) {
             return Integer.parseInt(processBuilder.environment().get("PORT"));
         }
         return 4567;

@@ -109,7 +109,7 @@ public class AlueApulainen extends Apulainen<Alue> {
         connection.close();
         return alueet;
     }
-
+    
     @Override
     public Alue create(Alue alue) throws SQLException {
         Connection connection = this.database.getConnection();

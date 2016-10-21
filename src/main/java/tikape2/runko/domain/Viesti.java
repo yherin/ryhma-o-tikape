@@ -29,6 +29,14 @@ public class Viesti implements Retrievable<Viesti>{
         this.nimimerkki = nimimerkki;
     }
     
+     public Viesti( Date aikaleima, String viesti, String nimimerkki) {
+        this.id = id;
+        this.lankaid = lankaid;
+        this.aikaleima = aikaleima;
+        this.viesti = viesti;
+        this.nimimerkki = nimimerkki;
+    }
+    
     public Viesti(int lankaid, Date aikaleima, String viesti, String nimimerkki) {
         this.lankaid = lankaid;
         this.aikaleima = aikaleima;
