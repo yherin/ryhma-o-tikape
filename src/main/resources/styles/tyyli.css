@@ -37,10 +37,10 @@ ol {
 ol li {
     background: #ffe1e1;
     padding: 1em 0 1em 1em;
-    border-top: medium dotted gray;
+    border-bottom: 1px solid #BBBBBB;
     border-top-left-radius: 0.5em 1em;
     border-bottom-left-radius: 0.5em 1em;
-    margin-right: 0.75em;
+    margin-right: 0.8em;
     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
@@ -60,7 +60,9 @@ input {
 
 textarea {
     width: 75%;
+    max-width: 98.2%;
     height: 6em;
+    max-height: 30em;
     box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
