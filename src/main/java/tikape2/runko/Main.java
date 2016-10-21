@@ -117,22 +117,16 @@ public class Main {
             int sivu = Integer.parseInt(req.params(":sivu"));
             Lanka lanka = (Lanka) lankaapulainen.getSingle(Integer.parseInt(id));
             Alue alue = (Alue) alueapulainen.getSingle(lanka.getAlueid());
-            List<Viesti> viestit = lankaapulainen.getKaikkiViestit(id, sivu);
+            List<Viesti> viestit = lankaapulainen.getKaikkiViestit(id, sivu);            
             
-            
-            
-            //10 viestia per lista
-            
-        
-
             System.out.println(viestit);
 
             SimpleDateFormat dateformat = new SimpleDateFormat();
             
-        map.put("viestit", viestit);
-
+            map.put("viestit", viestit);
             map.put("lanka", lanka);
             map.put("alue", alue);
+            map.put("sivu", sivu);
 
             return new ModelAndView(map, "lanka");
         }, new ThymeleafTemplateEngine());

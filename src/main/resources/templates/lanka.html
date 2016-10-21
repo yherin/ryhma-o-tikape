@@ -32,6 +32,7 @@
         </form>
         </section>
         
+        <br/><a th:href="@{~/langat/{id}(id=${lanka.id})} + '/' + ${sivu + 1}" th:if="${sivu} &lt; 2">seuraava sivu</a>
         <br/><a th:href="@{~/alueet}">etusivulle</a>
         
     </body>
