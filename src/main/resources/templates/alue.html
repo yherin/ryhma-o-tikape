@@ -33,7 +33,8 @@
                 </td>
             </tr>
         </table>
-        <section>
+        
+        <div id="datansyotto">
         <form method="POST" th:action="@{~/alueet/{id}(id=${alue.id})}">
             Lisää lanka: <br/>
             <input type="text" name="lanka" required="required"/><br/>
@@ -43,7 +44,7 @@
             <textarea cols="40" rows="5" name="viesti" required="required"></textarea><br/>
             <input type="submit" value="lisää"/>
         </form>
-        </section>
+        </div>
         
         <br/><a th:href="@{~/alueet}">etusivulle</a>
 

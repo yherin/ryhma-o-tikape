@@ -11,18 +11,35 @@
         
         <h1>
             <a th:href="@{~/alueet}">Alueet</a> ➝ 
-            <a th:href="@{~/alueet/{id}(id=${alue.id})}"><span th:text="${alue.otsikko}"></span></a> ➝
-            <span th:text="${lanka.otsikko}"></span>
+            <a th:href="@{~/alueet/{id}(id=${alue.id})}"><span th:text="${alue.otsikko}"/></a> ➝
+            <span th:text="${lanka.otsikko}"/>
         </h1>
         
         <ol>
             <li th:each=" viesti: ${viestit}">
-                <b><span th:text="${viesti.nimimerkki}" ></span></b>:
-                <i><span th:text="${viesti.AikaleimaString}" class="date" ></span></i>
-                <p th:text="${viesti.viesti}" ></p>
+                <b><span th:text="${viesti.nimimerkki}"/></b>:
+                <span th:text="${viesti.AikaleimaString}" class="date"/>
+                <p th:text="${viesti.viesti}"/>
             </li>
         </ol>
-        <section>
+       
+        <div id="sivuvalinta">
+            <br/>
+            <a th:href="@{~/langat/{id}(id=${lanka.id})} + '/' + ${sivu - 1}" th:if="${sivu} &gt; 1">
+            <span class="sivuvalitsin" th:text="${sivu - 1}" title="Edellinen sivu">edellinen sivu</span></a>
+            <span class="tab"/>
+            
+            <b class="tamasivu" th:text="${sivu}"></b>
+            <span class="tab"/>
+<!--    Seuraava sivu -nappi: osoite = /langat/lanka.id/sivu + 1, ilmestyy vain, jos muuttuja sivu < 3.
+        3 on vaan placeholder, se pitää korvata muuttujalla, josta selviää langan sivumäärä
+        muuttuja voisi olla esim. COUNT(viestit), jaetaan kymmenellä ja round up    -->
+
+            <a th:href="@{~/langat/{id}(id=${lanka.id})} + '/' + ${sivu + 1}" th:if="${sivu} &lt; 3">
+            <span class="sivuvalitsin" th:text="${sivu + 1}" title="Seuraava sivu">seuraava sivu</span></a>
+        </div>
+        
+        <div id="datansyotto">
         <form method="POST" th:action="@{~/langat/{id}(id=${lanka.id})}">
             Nimimerkki: <br/>
             <input type="text" name="nimimerkki" required="required"/><br/>
@@ -30,9 +47,8 @@
             <textarea cols="40" rows="5" name="viesti" required="required"></textarea><br/>
             <input type="submit" value="lisää"/>
         </form>
-        </section>
-        
-        <br/><a th:href="@{~/langat/{id}(id=${lanka.id})} + '/' + ${sivu + 1}" th:if="${sivu} &lt; 2">seuraava sivu</a>
+        </div>
+       
         <br/><a th:href="@{~/alueet}">etusivulle</a>
         
     </body>
