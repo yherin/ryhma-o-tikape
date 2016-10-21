@@ -24,13 +24,11 @@
         </ol>
        
         <div id="sivuvalinta">
-            <br/>
+            <br/> <span class="tab">Valitse sivu:</span>
             <a th:href="@{~/langat/{id}(id=${lanka.id})} + '/' + ${sivu - 1}" th:if="${sivu} &gt; 1">
             <span class="sivuvalitsin" th:text="${sivu - 1}" title="Edellinen sivu">edellinen sivu</span></a>
-            <span class="tab"/>
             
             <b class="tamasivu" th:text="${sivu}"></b>
-            <span class="tab"/>
 <!--    Seuraava sivu -nappi: osoite = /langat/lanka.id/sivu + 1, ilmestyy vain, jos muuttuja sivu < 3.
         3 on vaan placeholder, se pitää korvata muuttujalla, josta selviää langan sivumäärä
         muuttuja voisi olla esim. COUNT(viestit), jaetaan kymmenellä ja round up    -->

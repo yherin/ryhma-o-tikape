@@ -93,6 +93,10 @@ th, td {
     line-height: 1.75em;
 }
 
+.tab {
+    padding-right: 0.5em;
+}
+
 .sivuvalitsin {
     margin: 0;
     padding: 0.4em 0.5em 0.4em 0.5em;
