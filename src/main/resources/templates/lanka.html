@@ -37,14 +37,14 @@
             
             <b class="tamasivu" th:text="${sivu}"></b>
 
-            <a th:href="@{~/langat/{id}(id=${lanka.id})} + '/' + ${sivu + 1}" th:if="${sivu + 1} &lt; ${sivumaara}">
+            <a th:href="@{~/langat/{id}(id=${lanka.id})} + '/' + ${sivu + 1}" th:if="${sivu} &lt; ${sivumaara}">
             <span class="sivuvalitsin" th:text="${sivu + 1}" title="Seuraava sivu">seuraava sivu</span></a>
             
-            <a th:href="@{~/langat/{id}(id=${lanka.id})} + '/' + ${sivu + 2}" th:if="${sivu + 2} &lt; ${sivumaara}">
+            <a th:href="@{~/langat/{id}(id=${lanka.id})} + '/' + ${sivu + 2}" th:if="${sivu + 1} &lt; ${sivumaara}">
             <span class="sivuvalitsin" th:text="${sivu + 2}" title="Seuraavampi sivu">2*seuraava sivu</span></a>
             
             
-            <a th:href="@{~/langat/{id}(id=${lanka.id})} + '/' + ${sivumaara}" th:if="${sivumaara} &gt; 2 and ${sivu} &lt; ${sivumaara}">
+            <a th:href="@{~/langat/{id}(id=${lanka.id})} + '/' + ${sivumaara}" th:if="${sivumaara} &gt; 2 and ${sivu} &lt; ${sivumaara - 2}">
             <span class="sivuvalitsin" th:text="${sivumaara}" title="Viimeinen sivu">viimeinen sivu</span></a>
         </div>
         

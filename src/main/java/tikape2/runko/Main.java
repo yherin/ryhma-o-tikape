@@ -30,24 +30,21 @@ public class Main {
             dbOsoite = System.getenv("DATABASE_URL");
         }
 
-        
-
         Spark.staticFileLocation("/styles");
 
         //oliot
         Database database = new Database(dbOsoite);
-        AlueApulainen alueapulainen = new AlueApulainen(database);  
+        AlueApulainen alueapulainen = new AlueApulainen(database);
         LankaApulainen lankaapulainen = new LankaApulainen(database);
         ViestiApulainen viestiapulainen = new ViestiApulainen(database);
 
-        
         //etusivu redirect
         get("/", (req, res) -> {
 
             res.redirect("/alueet");
             return "";
         });
-        
+
         //kaikki alueet - eli etusivu
         get("/alueet", (req, res) -> {
             HashMap map = new HashMap<>();
@@ -60,18 +57,18 @@ public class Main {
 
             return new ModelAndView(map, "alueet");
         }, new ThymeleafTemplateEngine());
-        
+
         //luo uusi alue
         post("/alueet", (req, res) -> {
             HashMap map = new HashMap<>();
-            String otsikko =  NoInject.cleanHtml(req.queryParams("alue"));
+            String otsikko = NoInject.cleanHtml(req.queryParams("alue"));
             Alue alue = new Alue(otsikko);
 
             alueapulainen.create(alue);
             res.redirect("/alueet");
             return "";
         });
-        
+
         //näytä langat yhdessä alueessa
         get("/alueet/:id", (req, res) -> {
             HashMap map = new HashMap<>();
@@ -90,42 +87,39 @@ public class Main {
         post("/alueet/:id", (req, res) -> {
             int alueid = Integer.parseInt(req.params(":id"));
             String otsikko = NoInject.cleanHtml(req.queryParams("lanka"));
-            String nimimerkki =  NoInject.cleanHtml(req.queryParams("nimimerkki"));
-            String teksti =  NoInject.cleanHtml(req.queryParams("viesti"));
-            
-              Timestamp time = new Timestamp(System.currentTimeMillis());
+            String nimimerkki = NoInject.cleanHtml(req.queryParams("nimimerkki"));
+            String teksti = NoInject.cleanHtml(req.queryParams("viesti"));
 
-              
+            Timestamp time = new Timestamp(System.currentTimeMillis());
+
             //herokun palvelin on irlannisa.  aikavyöhyke korjaus
             Date aika = new Date(time.getTime() + TimeZone.getTimeZone("Europe/Helsinki").getOffset(time.getTime()));
-            
+
             Viesti viesti = new Viesti(aika, teksti, nimimerkki);
             Lanka lanka = new Lanka(alueid, otsikko, viesti);
-            
-            
+
             lankaapulainen.create(lanka);
-      
+
             res.redirect("/alueet/" + alueid);
 
             return "";
         });
-        
-        
+
         //näytä 10 viestia käyttäjä
-        get("/langat/:id/:sivu", (req, res) -> {  
+        get("/langat/:id/:sivu", (req, res) -> {
             HashMap map = new HashMap<>();
             String id = req.params(":id");
             int sivu = Integer.parseInt(req.params(":sivu"));
-            
+
             Lanka lanka = (Lanka) lankaapulainen.getSingle(Integer.parseInt(id));
             Alue alue = (Alue) alueapulainen.getSingle(lanka.getAlueid());
             List<Viesti> viestit = lankaapulainen.getKaikkiViestit(id, sivu);
             int sivumaara = lankaapulainen.getSivujenMaaraLangassa(id);
-            
+
             System.out.println(viestit);
 
             SimpleDateFormat dateformat = new SimpleDateFormat();
-            
+
             map.put("viestit", viestit);
             map.put("lanka", lanka);
             map.put("alue", alue);
@@ -134,8 +128,7 @@ public class Main {
 
             return new ModelAndView(map, "lanka");
         }, new ThymeleafTemplateEngine());
-        
-        
+
         //luo uusi viesti
         post("/langat/:id", (req, res) -> {
             HashMap map = new HashMap<>();
@@ -144,12 +137,14 @@ public class Main {
 
             Date aika = new Date(time.getTime() + TimeZone.getTimeZone("Europe/Helsinki").getOffset(time.getTime()));
 
-            String viesti =  NoInject.cleanHtml(req.queryParams("viesti"));
-            String nimimerkki =  NoInject.cleanHtml(req.queryParams("nimimerkki"));
+            String viesti = NoInject.cleanHtml(req.queryParams("viesti"));
+            String nimimerkki = NoInject.cleanHtml(req.queryParams("nimimerkki"));
             Viesti v = new Viesti(lankaid, aika, viesti, nimimerkki);
 
             viestiapulainen.create(v);
-            res.redirect("/langat/" + lankaid + "/1");
+            int sivumaara = lankaapulainen.getSivujenMaaraLangassa(lankaid + "");
+
+            res.redirect("/langat/" + lankaid + "/" + sivumaara);
             return "";
         });
 
