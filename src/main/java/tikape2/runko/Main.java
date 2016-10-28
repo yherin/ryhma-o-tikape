@@ -1,17 +1,10 @@
 package tikape2.runko;
 
-import java.sql.Connection;
 import java.sql.Date;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.SimpleTimeZone;
 import java.util.TimeZone;
 import spark.ModelAndView;
 import spark.Spark;
@@ -21,7 +14,6 @@ import tikape2.runko.database.AlueApulainen;
 import tikape2.runko.database.Database;
 import tikape2.runko.database.LankaApulainen;
 import tikape2.runko.database.NoInject;
-import tikape2.runko.database.OpiskelijaDao;
 import tikape2.runko.database.ViestiApulainen;
 import tikape2.runko.domain.Alue;
 import tikape2.runko.domain.Lanka;
