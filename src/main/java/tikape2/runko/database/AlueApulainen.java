@@ -57,6 +57,10 @@ public class AlueApulainen extends Apulainen<Alue> {
 
     @Override
     public List<Alue> getAll() throws SQLException {
+        /*
+        Hae kaikki alueet
+        Ei käytössä.
+        */
         Connection connection = this.database.getConnection();
 
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM Alue");
@@ -69,7 +73,6 @@ public class AlueApulainen extends Apulainen<Alue> {
             alue.setOtsikko(tulos.getString("otsikko"));
             alueet.add(alue);
         }
-        //EI VIELÄ VALMIS
 
         statement.close();
         connection.close();
@@ -77,6 +80,11 @@ public class AlueApulainen extends Apulainen<Alue> {
     }
 
     public List<Alue> getAlueetViestitAikaLeimat() throws SQLException {
+        
+        /*
+        Hae kaikki alueet (aakkosjärjestyksessä), viestit yhteensä ja viimeisin viesti.
+        */
+        
         Connection connection = this.database.getConnection();
 
         String sql = "SELECT Alue.id AS 'id', Alue.otsikko AS 'alue', COUNT(Viesti.id) AS 'viestit', MAX(Viesti.aikaleima) AS 'viimeisinviesti' FROM Alue, Lanka \n"
@@ -110,6 +118,9 @@ public class AlueApulainen extends Apulainen<Alue> {
     
     @Override
     public Alue create(Alue alue) throws SQLException {
+        /*
+        Luo uusi alue
+        */
         Connection connection = this.database.getConnection();
 
         String sql = "INSERT INTO Alue (otsikko) VALUES (?)";

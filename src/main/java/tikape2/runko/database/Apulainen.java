@@ -20,7 +20,7 @@ public abstract class Apulainen<T> {
     
     
     public abstract List<T> getAll() throws SQLException; 
-    //not yet implemented, hae kaikki taulun rivin
+    // hae kaikki taulun rivin
             
     public abstract T create(T t) throws SQLException; 
     

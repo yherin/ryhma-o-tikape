@@ -11,7 +11,8 @@ import java.util.List;
 
 /**
  *
- * @author jack
+ *  Lanka == Ketju
+ * 
  */
 public class Lanka {
     
@@ -22,11 +23,11 @@ public class Lanka {
     private String teksti;
     private Viesti viesti;
     
-    private String viimeisinViestiString;
+    private String viimeisinViestiString; //needed
     private Date viimeisinViesti;
     private Integer viesteja_langassa;
     
-    private String nimimerkki;
+    private String nimimerkki; 
 
     public Lanka(){
         

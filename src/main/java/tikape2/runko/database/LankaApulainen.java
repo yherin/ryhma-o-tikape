@@ -15,10 +15,7 @@ import java.util.List;
 import tikape2.runko.domain.Lanka;
 import tikape2.runko.domain.Viesti;
 
-/**
- *
- * @author sjack
- */
+
 public class LankaApulainen extends Apulainen<Lanka> {
 
     private Database database;
@@ -31,7 +28,6 @@ public class LankaApulainen extends Apulainen<Lanka> {
     public Lanka getSingle(int id) throws SQLException {
         /*
         Hae yhden rivin Alue -taulusta
-        EI TESTATTU
          */
         Connection connection = this.database.getConnection();
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM Lanka WHERE id = ?");
@@ -56,6 +52,11 @@ public class LankaApulainen extends Apulainen<Lanka> {
 
     @Override
     public List<Lanka> getAll() throws SQLException {
+        /*
+        Hae kaikki langat ja viimeisin viestit
+        Ei käytössä
+        */
+           
         Connection connection = this.database.getConnection();
 
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM Lanka JOIN Viesti ON Viesti.lankaid = Lanka.id ORDER BY"
@@ -77,6 +78,10 @@ public class LankaApulainen extends Apulainen<Lanka> {
     }
 
     public List<Lanka> getLankaViesti(String key) throws SQLException { //toinen näkymä
+        /*
+        Hae kaikki viesti tietystä langasta.
+        */
+        
         Connection connection = this.database.getConnection();
 
         String sql
@@ -95,7 +100,6 @@ public class LankaApulainen extends Apulainen<Lanka> {
         while (tulos.next()) {
 
             Integer id = tulos.getInt("id");
-            //  Integer alue_id = tulos.getInt("alue_id"); // EI TOIMII "GROUP BY":n kanssa
             String otsikko = tulos.getString("otsikko");
 
             Lanka l = new Lanka(id, Integer.parseInt(key), otsikko);
@@ -111,48 +115,12 @@ public class LankaApulainen extends Apulainen<Lanka> {
         return langat;
     }
 
-    public List<Viesti> getKaikkiViestit(String key) throws SQLException {
-        Connection connection = this.database.getConnection();
-            String sql
-                = "SELECT Viesti.id AS id, Viesti.teksti AS teksti, Viesti.nimimerkki AS nimimerkki, Viesti.aikaleima AS aikaleima "
-                + "FROM Viesti, Lanka "
-                + "WHERE Lanka.id = Viesti.lankaid AND Lanka.id = ? ;";
 
-//        String sql
-//                = "SELECT Viesti.id AS id, Viesti.teksti AS teksti, Viesti.nimimerkki AS nimimerkki, Viesti.aikaleima AS aikaleima, MAX(Viesti.aikaleima) as viimeisin "
-//                + "FROM Viesti, Lanka "
-//                + "WHERE Lanka.id = Viesti.lankaid AND Lanka.id = ? "
-//                + "ORDER BY viimeisin DESC LIMIT 10";
-
-        PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setObject(1, key);
-
-        ResultSet tulos = statement.executeQuery();
-
-        List<Viesti> viestit = new ArrayList<>();
-
-        while (tulos.next()) {
-            Integer id = tulos.getInt("id");
-            //  Integer alue_id = tulos.getInt("alue_id"); // EI TOIMII "GROUP BY":n kanssa
-            String teksti = tulos.getString("teksti");
-            String nimimerkki = tulos.getString("nimimerkki");
-
-            Viesti v = new Viesti(id, Integer.parseInt(key), teksti, nimimerkki);
-
-            //new SimpleDateFormat("dd-MM-YYYY HH:mm:ss").format(this.viimeisinViesti);
-
-            v.setAikaleima(tulos.getDate("aikaleima"));
-            //v.setAikaleima(tulos.getTimestamp(Viesti.aikaleima));
-
-            viestit.add(v);
-        }
-        statement.close();
-        connection.close();
-
-        return viestit;
-    }
 
     public List<Viesti> getKaikkiViestit(String key, int sivu) throws SQLException {
+        /*
+        Hae kaikki viesti tietystä langassa OFFSET käytäen.
+        */
         Connection connection = this.database.getConnection();
         ResultSet tulos = null;
         int offset = (sivu -1) * 10;
@@ -174,17 +142,14 @@ public class LankaApulainen extends Apulainen<Lanka> {
 
         while (tulos.next()) {
             Integer id = tulos.getInt("id");
-            //  Integer alue_id = tulos.getInt("alue_id"); // EI TOIMII "GROUP BY":n kanssa
             String teksti = tulos.getString("teksti");
             String nimimerkki = tulos.getString("nimimerkki");
 
             Viesti v = new Viesti(id, Integer.parseInt(key), teksti, nimimerkki);
 
-            //new SimpleDateFormat("dd-MM-YYYY HH:mm:ss").format(this.viimeisinViesti);
             SimpleDateFormat dateformat = new SimpleDateFormat("dd-MM-YYYY HH:mm:ss");
 
             v.setAikaleima(tulos.getDate("aikaleima"));
-            //v.setAikaleima(tulos.getTimestamp(Viesti.aikaleima));
 
             viestit.add(v);
         }
@@ -195,6 +160,11 @@ public class LankaApulainen extends Apulainen<Lanka> {
     }
     
     public int getSivujenMaaraLangassa(String key) throws SQLException {
+        
+        /*
+        Montako sivua langassa?
+        */
+        
         Connection connection = this.database.getConnection();
             String sql
                 = "SELECT COUNT(Viesti.id) AS lukumaara "

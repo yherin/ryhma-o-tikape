@@ -15,8 +15,8 @@ public class NoInject {
     public static String cleanHtml(String string){
         
         
-        //ei vielä toimi
-        return string.replaceAll("(?i)<td[^>]*>", " ").replaceAll("\\s+", " ").trim();
+        // "<" ja ">" poistetaan viestistä
+        return string.replaceAll("<", " ").replaceAll(">", " ").trim();
     }
     
 }

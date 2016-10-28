@@ -30,20 +30,25 @@ public class Main {
             dbOsoite = System.getenv("DATABASE_URL");
         }
 
-        Database database = new Database(dbOsoite);
+        
 
         Spark.staticFileLocation("/styles");
 
-        AlueApulainen alueapulainen = new AlueApulainen(database);  //MEIDÄN TOTEUTUS mutta ei toimi vielä
+        //oliot
+        Database database = new Database(dbOsoite);
+        AlueApulainen alueapulainen = new AlueApulainen(database);  
         LankaApulainen lankaapulainen = new LankaApulainen(database);
         ViestiApulainen viestiapulainen = new ViestiApulainen(database);
 
+        
+        //etusivu redirect
         get("/", (req, res) -> {
 
             res.redirect("/alueet");
             return "";
         });
-
+        
+        //kaikki alueet - eli etusivu
         get("/alueet", (req, res) -> {
             HashMap map = new HashMap<>();
 
@@ -55,7 +60,19 @@ public class Main {
 
             return new ModelAndView(map, "alueet");
         }, new ThymeleafTemplateEngine());
+        
+        //luo uusi alue
+        post("/alueet", (req, res) -> {
+            HashMap map = new HashMap<>();
+            String otsikko =  NoInject.cleanHtml(req.queryParams("alue"));
+            Alue alue = new Alue(otsikko);
 
+            alueapulainen.create(alue);
+            res.redirect("/alueet");
+            return "";
+        });
+        
+        //näytä langat yhdessä alueessa
         get("/alueet/:id", (req, res) -> {
             HashMap map = new HashMap<>();
             String id = req.params(":id");
@@ -69,6 +86,7 @@ public class Main {
             return new ModelAndView(map, "alue");
         }, new ThymeleafTemplateEngine());
 
+        //luo uusi lanka ja sen ensimäinen viesti
         post("/alueet/:id", (req, res) -> {
             int alueid = Integer.parseInt(req.params(":id"));
             String otsikko = NoInject.cleanHtml(req.queryParams("lanka"));
@@ -77,6 +95,8 @@ public class Main {
             
               Timestamp time = new Timestamp(System.currentTimeMillis());
 
+              
+            //herokun palvelin on irlannisa.  aikavyöhyke korjaus
             Date aika = new Date(time.getTime() + TimeZone.getTimeZone("Europe/Helsinki").getOffset(time.getTime()));
             
             Viesti viesti = new Viesti(aika, teksti, nimimerkki);
@@ -84,29 +104,19 @@ public class Main {
             
             
             lankaapulainen.create(lanka);
-            
-      //      Viesti viesti = new Viesti(lanka.getId(), aika, teksti, nimimerkki);
-        //    viestiapulainen.create(viesti);
-
+      
             res.redirect("/alueet/" + alueid);
 
             return "";
         });
-
-        post("/alueet", (req, res) -> {
-            HashMap map = new HashMap<>();
-            String otsikko =  NoInject.cleanHtml(req.queryParams("alue"));
-            Alue alue = new Alue(otsikko);
-
-            alueapulainen.create(alue);
-            res.redirect("/alueet");
-            return "";
-        });
-
+        
+        
+        //näytä 10 viestia käyttäjä
         get("/langat/:id/:sivu", (req, res) -> {  
             HashMap map = new HashMap<>();
             String id = req.params(":id");
             int sivu = Integer.parseInt(req.params(":sivu"));
+            
             Lanka lanka = (Lanka) lankaapulainen.getSingle(Integer.parseInt(id));
             Alue alue = (Alue) alueapulainen.getSingle(lanka.getAlueid());
             List<Viesti> viestit = lankaapulainen.getKaikkiViestit(id, sivu);
@@ -126,7 +136,7 @@ public class Main {
         }, new ThymeleafTemplateEngine());
         
         
-
+        //luo uusi viesti
         post("/langat/:id", (req, res) -> {
             HashMap map = new HashMap<>();
             int lankaid = Integer.parseInt(req.params(":id"));
@@ -145,16 +155,7 @@ public class Main {
 
     }
 
-    static int sivumaara(int size) {
-
-        double i = size / 10;
-        i = Math.round(i);
-        if (i < 1){
-            return 1;
-        }
-        return (int) i;
-    }
-
+    //heroku juttu
     static int getHerokuAssignedPort() {
         ProcessBuilder processBuilder = new ProcessBuilder();
         if (processBuilder.environment().get("PORT") != null) {

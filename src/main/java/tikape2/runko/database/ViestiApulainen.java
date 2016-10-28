@@ -25,12 +25,12 @@ public class ViestiApulainen extends Apulainen<Viesti> {
 
     @Override
     public Viesti getSingle(int id) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("not in use"); 
     }
 
     @Override
     public List<Viesti> getAll() throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("not in use"); 
     }
 
     @Override

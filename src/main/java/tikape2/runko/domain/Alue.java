@@ -67,10 +67,16 @@ public class Alue  {
 
     @Override
     public String toString() {
+        /*
+        for debugging
+        */
         return "Alue{" + "id=" + id + ", otsikko=" + otsikko + ", viimeisinViesti=" + viimeisinViesti + ", viesteja_alueessa=" + viesteja_alueessa + '}';
     }
 
     public String getViimeisinViestiString() {
+        /*
+        Get date format working in html
+        */
         try {
         String aikaleima = new SimpleDateFormat("dd-MM-YYYY HH:mm:ss").format(this.viimeisinViesti);
         return aikaleima;
