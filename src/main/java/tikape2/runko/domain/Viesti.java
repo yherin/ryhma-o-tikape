@@ -5,14 +5,12 @@
  */
 package tikape2.runko.domain;
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import tikape2.runko.domain.Retrievable;
 /**
  *
  * @author jack
  */
-public class Viesti implements Retrievable<Viesti>{
+public class Viesti {
     
     private int id; //PRIMARY KEY
     private int lankaid; //FOREIGN KEY VIITEAVAIN

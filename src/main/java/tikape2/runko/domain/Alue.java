@@ -6,15 +6,13 @@
 package tikape2.runko.domain;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import tikape2.runko.domain.Retrievable;
 
 /**
  *
  * @author jack
  */
-public class Alue implements Retrievable<Alue>{
+public class Alue  {
     
     private int id;
     private String otsikko;

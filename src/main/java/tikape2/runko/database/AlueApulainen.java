@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import sun.reflect.generics.reflectiveObjects.*;
 import tikape2.runko.domain.Alue;
-import tikape2.runko.domain.Retrievable;
 
 /**
  *
@@ -35,7 +34,6 @@ public class AlueApulainen extends Apulainen<Alue> {
     public Alue getSingle(int id) throws SQLException {
         /*
         Hae yhden rivin Alue -taulusta
-        EI TESTATTU
          */
         Connection connection = this.database.getConnection();
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM Alue WHERE id = ?");

@@ -6,7 +6,6 @@
 package tikape2.runko.database;
 import java.sql.SQLException;
 import java.util.List;
-import tikape2.runko.domain.Retrievable;
 
         
 

@@ -8,13 +8,12 @@ package tikape2.runko.domain;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import tikape2.runko.domain.Retrievable;
 
 /**
  *
  * @author jack
  */
-public class Lanka implements Retrievable<Lanka> {
+public class Lanka {
     
     private int id;
     private int alueid;

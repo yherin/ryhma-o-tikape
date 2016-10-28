@@ -12,9 +12,7 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import tikape2.runko.domain.Alue;
 import tikape2.runko.domain.Lanka;
-import tikape2.runko.domain.Retrievable;
 import tikape2.runko.domain.Viesti;
 
 /**
